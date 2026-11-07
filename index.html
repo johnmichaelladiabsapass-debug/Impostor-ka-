@@ -1,0 +1,2641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0b0512">
+<title>IMPOSTOR KA!! — One word. One imposter. Trust nobody.</title>
+<style>
+/* ============================================================
+   IMPOSTOR KA!! — Original visual identity
+   ============================================================ */
+:root{
+  --bg:#0b0512;
+  --surface:#1a0f2e;
+  --surface2:#241540;
+  --surface3:#2e1b52;
+  --border:#3b2364;
+  --purple:#a855f7;
+  --purple2:#c084fc;
+  --purple-dark:#7c3aed;
+  --blue:#38bdf8;
+  --blue-dark:#0ea5e9;
+  --red:#f43f5e;
+  --red-dark:#be123c;
+  --green:#22c55e;
+  --amber:#fbbf24;
+  --text:#f5f1ff;
+  --muted:#a394c4;
+  --radius:18px;
+  --shadow:0 12px 40px -12px rgba(168,85,247,.55);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;min-height:100%;}
+body{
+  background:
+    radial-gradient(900px 600px at 50% -8%, #35195f 0%, rgba(53,25,95,0) 60%),
+    radial-gradient(700px 500px at 100% 100%, #131a4a 0%, rgba(19,26,74,0) 55%),
+    #0b0512;
+  background-attachment:fixed;
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:16px;
+  line-height:1.45;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+#app{
+  max-width:600px;
+  margin:0 auto;
+  padding:calc(14px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));
+  min-height:100dvh;
+  display:flex;
+  flex-direction:column;
+}
+button{font-family:inherit;}
+input,textarea,select{font-family:inherit;}
+/* ---------- animations ---------- */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes popIn{0%{opacity:0;transform:scale(.85);}60%{transform:scale(1.04);}100%{opacity:1;transform:scale(1);}}
+@keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@keyframes glowPulse{0%,100%{filter:drop-shadow(0 0 10px rgba(168,85,247,.5));}50%{filter:drop-shadow(0 0 26px rgba(56,189,248,.8));}}
+@keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+@keyframes spinSlow{to{transform:rotate(360deg);}}
+.screen{animation:fadeUp .3s ease both;flex:1;display:flex;flex-direction:column;gap:14px;}
+body.reduce-motion .screen,
+body.reduce-motion *{animation:none!important;transition:none!important;}
+/* ---------- layout helpers ---------- */
+.center{align-items:center;justify-content:center;text-align:center;}
+.row{display:flex;gap:10px;align-items:center;}
+.col{display:flex;flex-direction:column;gap:10px;}
+.grow{flex:1;}
+.spacer{flex:1;}
+.muted{color:var(--muted);}
+.small{font-size:13px;}
+.tiny{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;}
+h1,h2,h3{margin:0;line-height:1.15;}
+h1{font-size:28px;font-weight:900;letter-spacing:-.5px;}
+h2{font-size:22px;font-weight:800;}
+h3{font-size:17px;font-weight:800;}
+/* ---------- logo ---------- */
+.logo-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.logo-mark{width:104px;height:104px;animation:floaty 4s ease-in-out infinite,glowPulse 3s ease-in-out infinite;}
+.logo-text{
+  font-size:30px;font-weight:900;letter-spacing:1.5px;line-height:1;
+  background:linear-gradient(100deg,#c084fc,#a855f7 30%,#38bdf8 70%,#c084fc);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 5s linear infinite;
+  text-align:center;
+}
+.logo-sub{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);font-weight:800;text-align:center;}
+/* ---------- buttons ---------- */
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;padding:14px 18px;border-radius:15px;
+  border:1px solid var(--border);
+  background:var(--surface2);
+  color:var(--text);font-size:16px;font-weight:800;
+  cursor:pointer;transition:transform .12s ease,filter .15s ease,box-shadow .15s ease;
+  user-select:none;text-align:center;
+}
+.btn:active{transform:scale(.97);}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+.btn-primary{background:linear-gradient(135deg,#b06bff,#7c3aed);border-color:transparent;box-shadow:0 10px 28px -10px #a855f7;}
+.btn-blue{background:linear-gradient(135deg,#38bdf8,#0ea5e9);border-color:transparent;color:#04121f;}
+.btn-danger{background:linear-gradient(135deg,#f43f5e,#be123c);border-color:transparent;}
+.btn-green{background:linear-gradient(135deg,#34d399,#059669);border-color:transparent;color:#03150f;}
+.btn-ghost{background:rgba(255,255,255,.03);}
+.btn-sm{padding:10px 14px;font-size:14px;border-radius:12px;width:auto;}
+.btn-big{padding:18px;font-size:18px;border-radius:18px;}
+.btn-icon{width:44px;height:44px;padding:0;border-radius:14px;flex-shrink:0;}
+/* ---------- cards ---------- */
+.card{
+  background:linear-gradient(180deg,#1e1136,#150c27);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:16px;
+}
+.card-tight{padding:12px;}
+.card-glow{box-shadow:0 0 0 1px rgba(168,85,247,.25),0 18px 50px -20px rgba(168,85,247,.6);}
+/* ---------- topbar ---------- */
+.topbar{display:flex;align-items:center;gap:10px;min-height:44px;}
+.topbar .title{font-weight:800;font-size:16px;}
+.back-btn{
+  width:40px;height:40px;border-radius:12px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text);font-size:18px;display:flex;
+  align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;
+}
+.back-btn:active{transform:scale(.94);}
+/* ---------- avatars ---------- */
+.avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,#3a2168,#241540);
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;
+}
+.avatar.big{width:88px;height:88px;font-size:44px;}
+.avatar.sm{width:34px;height:34px;font-size:17px;}
+.avatar.dead{filter:grayscale(1);opacity:.35;}
+/* ---------- pills / chips ---------- */
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:999px;
+  background:var(--surface2);border:1px solid var(--border);
+  font-size:12.5px;font-weight:700;color:var(--muted);
+}
+.pill.on{background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;border-color:transparent;}
+.pill.blue{background:rgba(56,189,248,.14);color:var(--blue);border-color:rgba(56,189,248,.35);}
+.pill.red{background:rgba(244,63,94,.14);color:#fb7185;border-color:rgba(244,63,94,.35);}
+.pill.green{background:rgba(34,197,94,.14);color:#4ade80;border-color:rgba(34,197,94,.35);}
+.pill.amber{background:rgba(251,191,36,.14);color:var(--amber);border-color:rgba(251,191,36,.35);}
+.chip-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{
+  padding:9px 14px;border-radius:12px;border:1px solid var(--border);
+  background:var(--surface);color:var(--muted);font-size:13.5px;font-weight:700;
+  cursor:pointer;transition:all .15s ease;user-select:none;
+}
+.chip:active{transform:scale(.95);}
+.chip.on{background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;border-color:transparent;box-shadow:0 6px 18px -8px #a855f7;}
+/* ---------- form ---------- */
+.field{display:flex;flex-direction:column;gap:6px;}
+.field label{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+.input,textarea.input{
+  width:100%;padding:14px 16px;border-radius:14px;
+  border:1px solid var(--border);background:#120a22;color:var(--text);
+  font-size:16px;outline:none;transition:border-color .15s,box-shadow .15s;
+}
+.input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(168,85,247,.18);}
+textarea.input{resize:vertical;min-height:90px;}
+/* ---------- lists ---------- */
+.list{display:flex;flex-direction:column;gap:8px;}
+.list-item{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 14px;border-radius:14px;
+  background:var(--surface);border:1px solid var(--border);
+}
+.list-item .name{font-weight:700;font-size:15px;}
+.list-item .meta{font-size:12px;color:var(--muted);}
+/* ---------- progress ---------- */
+.bar{height:9px;border-radius:999px;background:#251743;overflow:hidden;}
+.bar > i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#a855f7,#38bdf8);transition:width .4s ease;}
+/* ---------- splash ---------- */
+.splash{justify-content:center;align-items:center;gap:18px;}
+/* ---------- role card ---------- */
+.role-card{
+  border-radius:22px;padding:22px 18px;text-align:center;
+  border:2px solid var(--border);
+  background:linear-gradient(180deg,#241540,#140b25);
+  animation:popIn .4s ease both;
+  position:relative;overflow:hidden;
+}
+.role-card::before{
+  content:"";position:absolute;inset:-40% -40% auto -40%;height:80%;
+  background:radial-gradient(circle,rgba(168,85,247,.35),transparent 65%);
+  pointer-events:none;
+}
+.role-card.imposter{border-color:rgba(244,63,94,.65);box-shadow:0 0 40px -8px rgba(244,63,94,.55);}
+.role-card.imposter::before{background:radial-gradient(circle,rgba(244,63,94,.4),transparent 65%);}
+.role-card.normal{border-color:rgba(56,189,248,.55);box-shadow:0 0 40px -8px rgba(56,189,248,.45);}
+.role-card.spy{border-color:rgba(251,191,36,.6);box-shadow:0 0 40px -8px rgba(251,191,36,.5);}
+.role-card.spy::before{background:radial-gradient(circle,rgba(251,191,36,.35),transparent 65%);}
+.role-card.detective{border-color:rgba(34,197,94,.6);box-shadow:0 0 40px -8px rgba(34,197,94,.5);}
+.role-card.jester{border-color:rgba(192,132,252,.7);box-shadow:0 0 40px -8px rgba(192,132,252,.55);}
+.role-card.amnesiac{border-color:rgba(148,163,184,.6);}
+.role-card.twin{border-color:rgba(139,92,246,.65);}
+.role-icon{font-size:56px;line-height:1;position:relative;}
+.role-name{font-size:24px;font-weight:900;letter-spacing:-.4px;margin-top:8px;position:relative;}
+.role-desc{font-size:14px;color:var(--muted);margin-top:8px;position:relative;}
+.word-box{
+  margin-top:16px;padding:16px;border-radius:16px;
+  background:rgba(56,189,248,.09);border:1px dashed rgba(56,189,248,.45);
+  position:relative;
+}
+.word-box .lbl{font-size:10.5px;letter-spacing:.22em;color:var(--blue);font-weight:900;}
+.word-box .val{font-size:30px;font-weight:900;letter-spacing:-.5px;margin:4px 0;word-break:break-word;}
+.word-box .cat{font-size:12.5px;color:var(--muted);font-weight:700;}
+/* ---------- peek / hold ---------- */
+.peek{
+  border-radius:16px;padding:16px;border:1px solid var(--border);
+  background:linear-gradient(180deg,#1e1136,#150c27);
+  transition:filter .18s ease;
+}
+.peek .secret{filter:blur(11px);transition:filter .18s ease;user-select:none;}
+.peek.showing .secret{filter:blur(0);}
+.peek .hidden-note{color:var(--muted);font-size:13px;text-align:center;font-weight:700;}
+/* ---------- clue list ---------- */
+.clue-row{
+  display:flex;gap:12px;padding:12px 14px;border-radius:14px;
+  background:var(--surface);border:1px solid var(--border);
+}
+.clue-row .who{font-weight:800;font-size:13.5px;color:var(--purple2);}
+.clue-row .txt{font-size:15px;margin-top:2px;word-break:break-word;}
+/* ---------- vote bars ---------- */
+.vote-row{display:flex;align-items:center;gap:10px;}
+.vote-row .bar{flex:1;}
+.vote-row .cnt{font-weight:900;font-size:14px;min-width:22px;text-align:right;}
+/* ---------- toast ---------- */
+#toast-root{position:fixed;left:0;right:0;bottom:calc(20px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:8px;z-index:9999;pointer-events:none;padding:0 16px;}
+.toast{
+  max-width:420px;width:100%;padding:13px 16px;border-radius:14px;
+  background:rgba(36,21,64,.97);border:1px solid var(--border);
+  color:var(--text);font-size:14px;font-weight:700;text-align:center;
+  box-shadow:0 18px 40px -14px #000;animation:fadeUp .25s ease both;
+  transition:opacity .3s,transform .3s;
+}
+.toast.out{opacity:0;transform:translateY(12px);}
+.toast.good{border-color:rgba(34,197,94,.6);}
+.toast.bad{border-color:rgba(244,63,94,.6);}
+/* ---------- misc ---------- */
+.divider{height:1px;background:var(--border);margin:4px 0;}
+.badge-dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;}
+.sticky-bottom{position:sticky;bottom:0;padding-top:10px;background:linear-gradient(180deg,rgba(11,5,18,0),rgba(11,5,18,.92) 35%);}
+.seg{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:4px;gap:4px;}
+.seg button{
+  flex:1;padding:10px;border-radius:10px;border:0;background:transparent;
+  color:var(--muted);font-weight:800;font-size:14px;cursor:pointer;transition:all .15s;
+}
+.seg button.on{background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;}
+.toggle{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:13px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--border);
+  cursor:pointer;user-select:none;
+}
+.toggle .sw{width:48px;height:28px;border-radius:999px;background:#2c1b4d;position:relative;transition:background .2s;flex-shrink:0;}
+.toggle .sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#8a7aa8;transition:all .2s;}
+.toggle.on .sw{background:linear-gradient(135deg,#8b5cf6,#6d28d9);}
+.toggle.on .sw::after{left:23px;background:#fff;}
+.timer-ring{font-variant-numeric:tabular-nums;font-weight:900;}
+.timer-ring.low{color:var(--red);animation:fadeIn .6s ease infinite alternate;}
+.res-banner{
+  border-radius:22px;padding:26px 18px;text-align:center;
+  background:linear-gradient(160deg,#2a1350,#140b25);
+  border:2px solid var(--border);
+  animation:popIn .5s ease both;
+}
+.res-banner.win{border-color:rgba(34,197,94,.65);box-shadow:0 0 60px -12px rgba(34,197,94,.6);}
+.res-banner.lose{border-color:rgba(244,63,94,.6);box-shadow:0 0 60px -12px rgba(244,63,94,.5);}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.mode-card{
+  padding:13px 12px;border-radius:15px;border:1px solid var(--border);
+  background:var(--surface);cursor:pointer;transition:all .15s ease;
+  text-align:left;display:flex;flex-direction:column;gap:3px;
+}
+.mode-card:active{transform:scale(.97);}
+.mode-card.on{border-color:transparent;background:linear-gradient(135deg,#7c3aed,#5b21b6);box-shadow:0 10px 26px -10px #a855f7;}
+.mode-card .m-name{font-weight:900;font-size:14px;}
+.mode-card .m-desc{font-size:11.5px;color:var(--muted);line-height:1.3;}
+.mode-card.on .m-desc{color:rgba(255,255,255,.8);}
+.emoji-btn{
+  font-size:26px;padding:12px;border-radius:14px;background:var(--surface2);
+  border:1px solid var(--border);cursor:pointer;transition:transform .1s;
+}
+.emoji-btn:active{transform:scale(.9);}
+.ach{
+  display:flex;gap:12px;align-items:center;padding:13px 14px;border-radius:14px;
+  background:var(--surface);border:1px solid var(--border);
+}
+.ach.locked{opacity:.45;}
+.ach .ic{font-size:26px;}
+.ach .an{font-weight:800;font-size:14px;}
+.ach .ad{font-size:12px;color:var(--muted);}
+
+/* ============================================================
+   GRAPHICS UPGRADE LAYER (appended; nothing above was removed)
+   ============================================================ */
+@property --a{syntax:'<angle>';initial-value:0deg;inherits:false;}
+@keyframes holo{to{--a:360deg;}}
+@keyframes starDrift{to{background-position:240px 200px;}}
+@keyframes dangerPulse{from{transform:scale(1);text-shadow:0 0 0 rgba(244,63,94,0);}to{transform:scale(1.07);text-shadow:0 0 22px rgba(244,63,94,.95);}}
+@keyframes confettiFall{to{background-position:0 110px,40px 120px,20px 200px;}}
+@keyframes iconBob{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-6px) rotate(2deg);}}
+:root{--ring:rgba(192,132,252,.18);--glass:rgba(36,21,64,.55);--hi:inset 0 1px 0 rgba(255,255,255,.08);}
+body{font-family:"Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+  background-image:
+    radial-gradient(1.2px 1.2px at 20px 30px,#fff,transparent),
+    radial-gradient(1px 1px at 90px 120px,#c4b5fd,transparent),
+    radial-gradient(1.4px 1.4px at 160px 60px,#fff,transparent),
+    radial-gradient(1px 1px at 210px 170px,#7dd3fc,transparent);
+  background-size:240px 200px;animation:starDrift 120s linear infinite;
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 50%,transparent 55%,rgba(0,0,0,.55) 100%);
+}
+h1,h2,h3{letter-spacing:-.02em;}
+h1{font-size:30px;}
+/* logo */
+.logo-wrap{position:relative;isolation:isolate;}
+.logo-wrap::before{
+  content:"";position:absolute;top:-22px;left:50%;margin-left:-80px;width:160px;height:160px;border-radius:50%;z-index:-1;
+  background:conic-gradient(from 0deg,rgba(168,85,247,0),rgba(168,85,247,.65),rgba(56,189,248,.6),rgba(244,63,94,.35),rgba(168,85,247,0));
+  filter:blur(26px);animation:spinSlow 10s linear infinite;
+}
+.logo-mark{width:116px;height:116px;}
+.logo-text{font-size:36px;letter-spacing:.04em;filter:drop-shadow(0 4px 18px rgba(168,85,247,.55));}
+.logo-sub{color:#b9a9dc;}
+/* buttons: chunky, tactile */
+.btn{
+  border-color:rgba(192,132,252,.22);
+  background:linear-gradient(180deg,rgba(60,36,104,.9),rgba(36,21,64,.95));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 -3px 0 rgba(0,0,0,.28),0 8px 18px -10px #000;
+  text-shadow:0 1px 0 rgba(0,0,0,.35);
+}
+.btn:active{transform:translateY(2px) scale(.99);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),inset 0 -1px 0 rgba(0,0,0,.28),0 3px 8px -6px #000;}
+.btn-primary{box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -3px 0 rgba(60,10,140,.55),0 12px 30px -10px #a855f7;}
+.btn-blue{box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -3px 0 rgba(3,60,100,.4),0 12px 28px -12px #38bdf8;text-shadow:none;}
+.btn-danger{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -3px 0 rgba(90,0,20,.5),0 12px 28px -10px #f43f5e;}
+.btn-green{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -3px 0 rgba(0,70,40,.4),0 12px 28px -12px #22c55e;text-shadow:none;}
+.btn-ghost{background:rgba(255,255,255,.04);box-shadow:var(--hi);}
+.btn-big{letter-spacing:.01em;}
+/* glass surfaces */
+.card{
+  background:linear-gradient(160deg,rgba(48,28,86,.74),rgba(21,12,39,.86));
+  border-color:var(--ring);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:var(--hi),0 16px 36px -22px #000;
+}
+.card-glow{box-shadow:var(--hi),0 0 0 1px rgba(168,85,247,.3),0 20px 54px -20px rgba(168,85,247,.7);}
+.list-item,.clue-row,.toggle,.ach,.mode-card,.back-btn,.seg,.peek{background:var(--glass);border-color:var(--ring);box-shadow:var(--hi);}
+.mode-card.on{border-color:transparent;background:linear-gradient(135deg,#7c3aed,#5b21b6);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 0 0 2px rgba(192,132,252,.75),0 16px 32px -12px #a855f7;}
+.chip{background:var(--glass);border-color:var(--ring);}
+.chip.on,.pill.on,.seg button.on,.toggle.on .sw{box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 6px 18px -8px #a855f7;}
+.pill{background:var(--glass);}
+.input,textarea.input{background:rgba(10,5,20,.72);border-color:var(--ring);box-shadow:inset 0 2px 6px rgba(0,0,0,.4);}
+.input:focus{border-color:#c084fc;box-shadow:inset 0 2px 6px rgba(0,0,0,.4),0 0 0 3px rgba(168,85,247,.28),0 0 24px -6px rgba(168,85,247,.7);}
+.toggle .sw::after{box-shadow:0 2px 6px rgba(0,0,0,.45);}
+.toast{background:rgba(30,17,54,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-color:var(--ring);}
+/* avatars */
+.avatar{
+  background:radial-gradient(circle at 30% 25%,#5a33a0,#1c1038 75%);
+  border:0;box-shadow:0 0 0 2px rgba(192,132,252,.55),0 0 0 5px rgba(168,85,247,.12),0 8px 18px -8px rgba(168,85,247,.8);
+}
+.avatar.big{box-shadow:0 0 0 3px rgba(192,132,252,.7),0 0 0 8px rgba(168,85,247,.14),0 0 34px -4px rgba(168,85,247,.8);}
+.avatar.dead{box-shadow:0 0 0 2px rgba(255,255,255,.12);}
+/* progress + votes */
+.bar{height:10px;background:#1b0f33;box-shadow:inset 0 1px 3px rgba(0,0,0,.6);}
+.bar > i{background:linear-gradient(90deg,#a855f7,#38bdf8);box-shadow:0 0 14px rgba(168,85,247,.8);}
+/* role reveal: the showpiece */
+.role-card{
+  --a:0deg;--c1:#a855f7;--c2:#38bdf8;border:0;padding:26px 18px;
+  background:
+    repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px),
+    linear-gradient(180deg,#2a1752,#120a22);
+}
+.role-card::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:2.5px;pointer-events:none;
+  background:conic-gradient(from var(--a),var(--c1),var(--c2),var(--c1));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;animation:holo 6s linear infinite;
+}
+.role-card.imposter{--c1:#f43f5e;--c2:#fb923c;}
+.role-card.normal{--c1:#38bdf8;--c2:#a855f7;}
+.role-card.spy{--c1:#fbbf24;--c2:#f472b6;}
+.role-card.detective{--c1:#22c55e;--c2:#38bdf8;}
+.role-card.jester{--c1:#c084fc;--c2:#f472b6;}
+.role-card.amnesiac{--c1:#94a3b8;--c2:#e2e8f0;}
+.role-card.twin{--c1:#8b5cf6;--c2:#38bdf8;}
+.role-icon{font-size:64px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.6));animation:iconBob 4s ease-in-out infinite;}
+.role-name{font-size:28px;text-shadow:0 0 26px var(--c1);}
+.word-box{
+  background:linear-gradient(180deg,rgba(56,189,248,.16),rgba(56,189,248,.04));
+  border:1px solid rgba(56,189,248,.4);box-shadow:inset 0 0 28px -10px rgba(56,189,248,.5);
+}
+.word-box .val{font-size:32px;text-shadow:0 0 26px rgba(56,189,248,.55);}
+/* timer + results */
+.timer-ring.low{animation:dangerPulse .55s ease-in-out infinite alternate;}
+.res-banner{position:relative;overflow:hidden;}
+.res-banner > *{position:relative;}
+.res-banner.win{background:radial-gradient(circle at 50% 0%,rgba(34,197,94,.3),transparent 62%),linear-gradient(160deg,#2a1350,#140b25);}
+.res-banner.lose{background:radial-gradient(circle at 50% 0%,rgba(244,63,94,.3),transparent 62%),linear-gradient(160deg,#2a1350,#140b25);}
+.res-banner.win::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
+  background-image:radial-gradient(circle,#fbbf24 2px,transparent 3px),radial-gradient(circle,#38bdf8 2px,transparent 3px),radial-gradient(circle,#f472b6 2px,transparent 3px);
+  background-size:90px 110px,130px 90px,70px 140px;background-position:0 0,40px 30px,20px 60px;
+  animation:confettiFall 7s linear infinite;
+}
+/* polish */
+.btn:focus-visible,.chip:focus-visible,.mode-card:focus-visible,.back-btn:focus-visible,.toggle:focus-visible,.seg button:focus-visible,.emoji-btn:focus-visible{outline:2px solid #c084fc;outline-offset:2px;}
+.emoji-btn{background:var(--glass);border-color:var(--ring);box-shadow:var(--hi),0 6px 14px -8px #000;}
+::selection{background:rgba(168,85,247,.45);}
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-thumb{background:#3b2364;border-radius:99px;}
+::-webkit-scrollbar-track{background:transparent;}
+#app{position:relative;z-index:1;}
+@media (min-width:720px){
+  #app{
+    margin-top:24px;margin-bottom:24px;min-height:calc(100dvh - 48px);padding-left:24px;padding-right:24px;
+    border-radius:30px;border:1px solid var(--ring);background:rgba(15,8,28,.55);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    box-shadow:0 40px 100px -30px #000,0 0 90px -30px rgba(168,85,247,.55);
+  }
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast-root"></div>
+<script>
+"use strict";
+/* ================================================================
+   IMPOSTOR KA!! — Complete offline / pass-the-phone build
+   ----------------------------------------------------------------
+   Everything below is original source code. No external libraries,
+   no network requests, no tracking. All state is persisted locally.
+   ================================================================ */
+/* ---------------------------------------------------------------
+   0. UTILITIES
+--------------------------------------------------------------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const app = document.getElementById('app');
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+  ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+const shuffle = (arr) => {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+const rnd = (n) => Math.floor(Math.random() * n);
+const pick = (arr) => arr[rnd(arr.length)];
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+/* Simple non-cryptographic hash — local device profile PINs only.
+   (Real deployments must use Argon2id/bcrypt server-side.) */
+function hashPin(pin) {
+  let h = 2166136261;
+  const s = String(pin) + '::impostor-ka-salt';
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return (h >>> 0).toString(36);
+}
+/* Persistent storage wrapper */
+const LS = {
+  get(k, d) {
+    try { const v = localStorage.getItem('ik_' + k); return v == null ? d : JSON.parse(v); }
+    catch (e) { return d; }
+  },
+  set(k, v) {
+    try { localStorage.setItem('ik_' + k, JSON.stringify(v)); } catch (e) {}
+  }
+};
+/* Toast notifications */
+function toast(msg, type = '') {
+  const root = document.getElementById('toast-root');
+  const d = document.createElement('div');
+  d.className = 'toast ' + type;
+  d.textContent = msg;
+  root.appendChild(d);
+  setTimeout(() => { d.classList.add('out'); setTimeout(() => d.remove(), 320); }, 2600);
+}
+/* ---------------------------------------------------------------
+   1. WORD DATABASE (curated, original, expandable)
+   ---------------------------------------------------------------
+   Each entry: { w: word, cat: category, diff: EASY|MEDIUM|HARD, lang: en|fil }
+   The production target in the design document is 5,500+ entries;
+   this build ships a curated core set that is fully functional and
+   structured so the content pipeline can append more entries.
+--------------------------------------------------------------- */
+const WORD_SOURCE = {
+  Animals: {
+    EASY: "Cat|Dog|Fish|Bird|Cow|Pig|Chicken|Horse|Rabbit|Goat|Duck|Frog|Snake|Lion|Tiger|Elephant|Monkey|Mouse|Bee|Ant|Spider|Sheep|Crab|Shark|Whale|Dolphin|Turtle|Butterfly|Eagle|Owl|Rooster|Carabao",
+    MEDIUM: "Kangaroo|Penguin|Giraffe|Zebra|Cheetah|Octopus|Jellyfish|Peacock|Crocodile|Hippopotamus|Rhinoceros|Squirrel|Hedgehog|Raccoon|Otter|Panda|Koala|Camel|Deer|Fox|Wolf|Bear|Seal|Walrus|Parrot|Flamingo|Chameleon|Scorpion|Lobster|Tarsier",
+    HARD: "Platypus|Axolotl|Pangolin|Narwhal|Okapi|Capybara|Meerkat|Armadillo|Sloth|Tapir|Manatee|Wolverine|Salamander|Quokka|Binturong|Fossa|Tamarao|Kinkajou|Aye-aye"
+  },
+  "Food & Drinks": {
+    EASY: "Rice|Bread|Pizza|Burger|Apple|Banana|Mango|Egg|Milk|Cheese|Coffee|Tea|Water|Juice|Cake|Ice Cream|Chocolate|Soup|Noodles|Adobo|Pancit|Lumpia|Halo-halo|Lechon|Pandesal|Sinigang|Hotdog|Sandwich|Cereal|Butter",
+    MEDIUM: "Sushi|Tacos|Pasta|Ramen|Croissant|Pancake|Waffle|Donut|Salad|Steak|Curry|Dumpling|Tempura|Kimchi|Burrito|Lasagna|Risotto|Paella|Sisig|Kare-kare|Bibingka|Puto|Leche Flan|Kwek-kwek|Fishball|Balut|Buko Pie|Champorado|Longganisa|Tapa",
+    HARD: "Foie Gras|Truffle|Caviar|Saffron|Tiramisu|Macaron|Prosciutto|Baguette|Bouillabaisse|Ratatouille|Gyoza|Baklava|Churros|Gelato|Moussaka|Tagine|Ceviche|Poutine|Sashimi|Rendang"
+  },
+  "Places & Landmarks": {
+    EASY: "Beach|School|Hospital|Market|Church|Park|Mall|Airport|Library|Museum|Restaurant|Hotel|Zoo|Cinema|Bank|Bakery|Farm|Bridge|Island|Mountain|River|Playground|Barangay Hall|Sari-sari Store|Jeepney Terminal",
+    MEDIUM: "Volcano|Waterfall|Desert|Rainforest|Cathedral|Stadium|Casino|Observatory|Lighthouse|Prison|Embassy|University|Skyscraper|Harbor|Cemetery|Temple|Mosque|Pyramid|Colosseum|Tower",
+    HARD: "Peninsula|Archipelago|Plateau|Glacier|Canyon|Oasis|Lagoon|Fjord|Tundra|Savanna|Estuary|Atoll|Basin|Delta|Isthmus"
+  },
+  Sports: {
+    EASY: "Basketball|Soccer|Volleyball|Boxing|Swimming|Running|Cycling|Tennis|Badminton|Baseball|Bowling|Golf|Chess|Darts|Billiards|Arnis|Sipa|Sepak Takraw",
+    MEDIUM: "Rugby|Cricket|Hockey|Fencing|Gymnastics|Archery|Rowing|Surfing|Skateboarding|Snowboarding|Taekwondo|Judo|Karate|Weightlifting|Marathon|Triathlon|Water Polo|Handball|Squash|Softball",
+    HARD: "Curling|Bobsled|Luge|Decathlon|Pentathlon|Polo|Lacrosse|Steeplechase|Freediving|Synchronized Swimming|Biathlon|Foil Fencing"
+  },
+  Professions: {
+    EASY: "Teacher|Doctor|Nurse|Police|Firefighter|Farmer|Driver|Cook|Waiter|Barber|Tailor|Carpenter|Electrician|Plumber|Soldier|Pilot|Sailor|Vendor|Janitor|Guard",
+    MEDIUM: "Engineer|Architect|Lawyer|Judge|Accountant|Scientist|Journalist|Photographer|Designer|Programmer|Pharmacist|Dentist|Veterinarian|Surgeon|Politician|Actor|Singer|Dancer|Coach|Referee",
+    HARD: "Actuary|Anesthesiologist|Archeologist|Cartographer|Chiropractor|Epidemiologist|Ethnographer|Geologist|Hydrologist|Linguist|Meteorologist|Neurologist|Oceanographer|Seismologist|Statistician|Translator|Zoologist|Audiologist"
+  },
+  "Everyday Objects": {
+    EASY: "Chair|Table|Bed|Pillow|Blanket|Mirror|Toothbrush|Soap|Towel|Spoon|Fork|Knife|Plate|Cup|Broom|Bucket|Lamp|Clock|Phone|Wallet|Keys|Umbrella|Shoes|Hat|Bag|Fan|Comb|Scissors|Pen|Notebook",
+    MEDIUM: "Blender|Microwave|Toaster|Vacuum|Iron|Kettle|Calendar|Calculator|Stapler|Tape|Glue|Ladder|Hammer|Screwdriver|Wrench|Drill|Saw|Ruler|Magnifying Glass|Thermometer|Flashlight|Extension Cord|Hanger|Basket|Vase",
+    HARD: "Chandelier|Barometer|Kaleidoscope|Metronome|Telescope|Microscope|Sextant|Abacus|Astrolabe|Hourglass|Gramophone|Typewriter|Projector|Incubator|Centrifuge|Pedometer|Hygrometer|Calipers"
+  },
+  Entertainment: {
+    EASY: "Movie|Concert|Karaoke|Video Game|Cartoon|Comedy|Drama|Horror|Dance|Singing|Painting|Magic Show|Circus|Carnival|Board Game|Puzzle|Anime|Teleserye|Fiesta",
+    MEDIUM: "Documentary|Musical|Opera|Ballet|Stand-up Comedy|Podcast|Reality Show|Game Show|Orchestra|Festival|Theater|Poetry|Novel|Comic Book|Manga|Esports|Streaming|Radio",
+    HARD: "Improvisation|Satire|Burlesque|Pantomime|Symphony|Sonnet|Haiku|Monologue|Cinematography|Choreography|Screenplay|Vaudeville|Melodrama|Foreshadowing"
+  },
+  Technology: {
+    EASY: "Phone|Laptop|Computer|Keyboard|Mouse|Screen|Camera|Speaker|Headphones|Charger|Battery|WiFi|Internet|Email|Password|Website|App|Robot|Drone|Smart TV",
+    MEDIUM: "Bluetooth|Router|Server|Database|Algorithm|Software|Hardware|Firewall|Encryption|Cloud Storage|Virtual Reality|Artificial Intelligence|Processor|Graphics Card|USB|Touchscreen|Biometrics|Quantum Computing",
+    HARD: "Blockchain|Compression|Latency|Bandwidth|Kernel|Compiler|Recursion|API|Cache|Protocol|Semiconductor|Nanotechnology|Neural Network|Cryptography|Virtualization|Containerization"
+  },
+  Nature: {
+    EASY: "Sun|Moon|Star|Cloud|Rain|Snow|Wind|Tree|Flower|Grass|Rock|Sand|Sea|Lake|Sky|Rainbow|Thunder|Lightning|Forest|Volcano",
+    MEDIUM: "Waterfall|Glacier|Canyon|Coral Reef|Mangrove|Tundra|Savanna|Geyser|Fog|Dew|Eclipse|Meteor|Aurora|Quicksand|Oasis|Desert|Swamp|Prairie",
+    HARD: "Bioluminescence|Photosynthesis|Erosion|Sediment|Tectonic Plate|Monsoon|Equinox|Solstice|Permafrost|Aquifer|Watershed|Biodiversity|Symbiosis|Metamorphosis"
+  },
+  Transportation: {
+    EASY: "Car|Bus|Jeepney|Tricycle|Bicycle|Motorcycle|Train|Airplane|Boat|Ship|Truck|Taxi|Van|Helicopter|Subway|Ferry|Kalesa|Rocket|Ambulance|Fire Truck",
+    MEDIUM: "Yacht|Submarine|Tram|Cable Car|Hot Air Balloon|Scooter|Segway|Hovercraft|Glider|Parachute|Bullet Train|Speedboat|Barge|Tanker|Monorail|Rickshaw",
+    HARD: "Zeppelin|Catamaran|Dirigible|Hydrofoil|Gondola|Funicular|Trawler|Schooner|Hoverboard|Jetpack"
+  },
+  "Philippine Culture": {
+    EASY: "Adobo|Jeepney|Barangay|Fiesta|Karaoke|Basketball|Mango|Balut|Sari-sari Store|Tricycle|Bayanihan|Kuya|Ate|Lola|Lolo|Noche Buena|Lechon|Halo-halo|Pandesal|Simbang Gabi",
+    MEDIUM: "Sinigang|Kare-kare|Tinikling|Pandanggo sa Ilaw|Bahay Kubo|Barong Tagalog|Baro't Saya|Salakot|Kalesa|Sipa|Arnis|Moro-moro|Santacruzan|Ati-atihan|Sinulog|Panagbenga|Pahiyas|Flores de Mayo",
+    HARD: "Balangay|Baybayin|Kundiman|Harana|Datu|Babaylan|Pamamanhikan|Pakikisama|Utang na Loob|Hiya|Kapwa|Kilig|Sarsuwela"
+  },
+  "Mythology & Folklore": {
+    EASY: "Dragon|Mermaid|Ghost|Vampire|Werewolf|Witch|Fairy|Giant|Dwarf|Unicorn|Zombie|Angel|Demon|Genie|Aswang|Kapre|Tikbalang|Dwende",
+    MEDIUM: "Phoenix|Centaur|Minotaur|Cyclops|Kraken|Griffin|Siren|Goblin|Troll|Ogre|Banshee|Yeti|Bigfoot|Manananggal|Tiyanak|Sigbin|Berberoka|Nuno sa Punso",
+    HARD: "Chimera|Hydra|Cerberus|Pegasus|Basilisk|Leviathan|Behemoth|Sphinx|Gorgon|Valkyrie|Fenrir|Jormungandr|Bakunawa|Sarimanok|Minokawa|Ibong Adarna"
+  },
+  "Random & Misc": {
+    EASY: "Money|Time|Dream|Love|Friend|Family|Music|Color|Number|Weather|Holiday|Birthday|Wedding|Party|Game|School|Work|Sleep|Food|Water",
+    MEDIUM: "Freedom|Justice|Memory|Luck|Secret|Promise|Regret|Courage|Silence|Chaos|Balance|Rhythm|Gravity|Echo|Shadow|Karma|Destiny|Nostalgia",
+    HARD: "Paradox|Entropy|Serendipity|Ephemeral|Juxtaposition|Ambiguity|Resilience|Synchronicity|Ineffable|Quintessence|Zeitgeist|Catharsis|Epiphany"
+  }
+};
+/* Filipino-language entries (lang = 'fil') */
+const FILIPINO_WORDS = [
+  ["Aso","Animals","EASY"],["Pusa","Animals","EASY"],["Isda","Animals","EASY"],
+  ["Ibon","Animals","EASY"],["Kalabaw","Animals","EASY"],["Manok","Animals","EASY"],
+  ["Baboy","Animals","EASY"],["Kambing","Animals","EASY"],["Pagong","Animals","MEDIUM"],
+  ["Paruparo","Animals","MEDIUM"],["Buwaya","Animals","MEDIUM"],["Pusa't Aso","Animals","HARD"],
+  ["Bahay","Places & Landmarks","EASY"],["Paaralan","Places & Landmarks","EASY"],
+  ["Simbahan","Places & Landmarks","EASY"],["Palengke","Places & Landmarks","EASY"],
+  ["Ospital","Places & Landmarks","EASY"],["Bundok","Places & Landmarks","EASY"],
+  ["Dagat","Places & Landmarks","EASY"],["Ilog","Places & Landmarks","EASY"],
+  ["Tulay","Places & Landmarks","MEDIUM"],["Lungsod","Places & Landmarks","MEDIUM"],
+  ["Tubig","Food & Drinks","EASY"],["Kanin","Food & Drinks","EASY"],
+  ["Ulam","Food & Drinks","EASY"],["Saging","Food & Drinks","EASY"],
+  ["Kape","Food & Drinks","EASY"],["Tinapay","Food & Drinks","EASY"],
+  ["Kotse","Transportation","EASY"],["Bangka","Transportation","EASY"],
+  ["Eroplano","Transportation","MEDIUM"],["Bisikleta","Transportation","EASY"],
+  ["Tren","Transportation","EASY"],["Guro","Professions","EASY"],
+  ["Doktor","Professions","EASY"],["Pulis","Professions","EASY"],
+  ["Magsasaka","Professions","MEDIUM"],["Tindero","Professions","MEDIUM"],
+  ["Mangingisda","Professions","MEDIUM"],["Kusinero","Professions","MEDIUM"],
+  ["Araw","Nature","EASY"],["Buwan","Nature","EASY"],["Bituin","Nature","EASY"],
+  ["Ulan","Nature","EASY"],["Hangin","Nature","EASY"],["Langit","Nature","EASY"],
+  ["Apoy","Nature","EASY"],["Yelo","Nature","EASY"],["Puno","Nature","EASY"],
+  ["Bulaklak","Nature","EASY"],["Kaibigan","Random & Misc","EASY"],
+  ["Pamilya","Random & Misc","EASY"],["Pag-ibig","Random & Misc","MEDIUM"],
+  ["Pangarap","Random & Misc","MEDIUM"],["Sayaw","Entertainment","EASY"],
+  ["Kanta","Entertainment","EASY"],["Larawan","Entertainment","EASY"],
+  ["Kuwento","Entertainment","MEDIUM"],["Tula","Entertainment","MEDIUM"]
+];
+/* Build the flat word list */
+const WORDS = [];
+(function buildWordDatabase() {
+  Object.keys(WORD_SOURCE).forEach((cat) => {
+    Object.keys(WORD_SOURCE[cat]).forEach((diff) => {
+      WORD_SOURCE[cat][diff].split('|').forEach((w) => {
+        const t = w.trim();
+        if (t) WORDS.push({ w: t, cat, diff, lang: 'en' });
+      });
+    });
+  });
+  FILIPINO_WORDS.forEach(([w, cat, diff]) => WORDS.push({ w, cat, diff, lang: 'fil' }));
+})();
+/* Curated related-word pairs used by Spy Mode / Hidden Twin Words */
+const WORD_PAIRS = [
+  ["Cat","Dog"],["Coffee","Tea"],["Basketball","Volleyball"],["Beach","Swimming Pool"],
+  ["Doctor","Nurse"],["Moon","Sun"],["Airport","Bus Terminal"],["Restaurant","Cafeteria"],
+  ["Pizza","Burger"],["Phone","Laptop"],["Train","Bus"],["Ocean","Lake"],
+  ["Soccer","Basketball"],["Guitar","Piano"],["Rain","Snow"],["Winter","Autumn"],
+  ["Teacher","Professor"],["Bicycle","Motorcycle"],["Movie","Series"],["Novel","Comic Book"],
+  ["Mango","Banana"],["Chocolate","Candy"],["Mountain","Hill"],["River","Stream"],
+  ["Sword","Knife"],["Castle","Palace"],["Ghost","Zombie"],["Robot","Android"],
+  ["Police","Soldier"],["Hotel","Hostel"],["Pencil","Pen"],["Mirror","Window"],
+  ["Cake","Pie"],["Soup","Stew"],["Ship","Boat"],["Cloud","Fog"],
+  ["Lion","Tiger"],["Shark","Whale"],["Eagle","Hawk"],["Clock","Watch"],
+  ["Church","Temple"],["Market","Mall"],["Karaoke","Concert"],["Volcano","Geyser"],
+  ["Adobo","Sinigang"],["Jeepney","Tricycle"],["Fiesta","Carnival"],["Halo-halo","Ice Cream"]
+];
+/* ---------------------------------------------------------------
+   2. TWISTS, MODES, ROLES
+--------------------------------------------------------------- */
+const TWIST_DEFS = [
+  { id:'DOUBLE_IMPOSTER', name:'Double Imposter', icon:'👥', min:5, conflicts:['SPY','HIDDEN_TWIN_WORDS'],
+    desc:'Two imposters who do not know each other.' },
+  { id:'SPY', name:'The Spy', icon:'🔍', min:4, conflicts:['DOUBLE_IMPOSTER','HIDDEN_TWIN_WORDS','JESTER'],
+    desc:'One player receives a related but different word.' },
+  { id:'DETECTIVE', name:'The Detective', icon:'🔎', min:4, conflicts:[],
+    desc:'One normal player may investigate a player once.' },
+  { id:'JESTER', name:'The Jester', icon:'🃏', min:4, conflicts:['SPY','HIDDEN_TWIN_WORDS'],
+    desc:'Wins by getting voted out.' },
+  { id:'AMNESIAC', name:'Amnesiac', icon:'💭', min:4, conflicts:[],
+    desc:'One normal player starts without the secret word.' },
+  { id:'SECRET_PARTNERS', name:'Secret Partners', icon:'🤝', min:5, conflicts:[],
+    desc:'Two normal players are secretly partnered.' },
+  { id:'WORD_SWITCH', name:'Word Switch', icon:'🔄', min:4, conflicts:[],
+    desc:'The secret word changes mid-game.' },
+  { id:'SUDDEN_DEATH', name:'Sudden Death', icon:'⏱️', min:3, conflicts:[],
+    desc:'All timers are cut in half.' },
+  { id:'SILENT_IMPOSTER', name:'Silent Imposter', icon:'🤐', min:4, conflicts:['HIDDEN_TWIN_WORDS','SPY'],
+    desc:'Imposters may only use approved emoji responses.' },
+  { id:'HIDDEN_TWIN_WORDS',name:'Hidden Twin Words',icon:'👯', min:4, conflicts:['DOUBLE_IMPOSTER','SPY','JESTER','SILENT_IMPOSTER'],
+    desc:'Two groups receive similar but different words.' },
+  { id:'SECOND_CHANCE', name:'Second Chance', icon:'💫', min:5, conflicts:[],
+    desc:'The first eliminated player returns once.' },
+  { id:'RANDOM_CHAOS', name:'Random Chaos', icon:'🎲', min:4, conflicts:['HIDDEN_TWIN_WORDS'],
+    desc:'The system picks a random compatible twist.' }
+];
+const TWIST_MAP = Object.fromEntries(TWIST_DEFS.map(t => [t.id, t]));
+const MODES = {
+  CLASSIC: { name:'Classic', icon:'🎯', desc:'One imposter. Standard rules.', imposters:1 },
+  CHAOS: { name:'Chaos', icon:'🎲', desc:'Random twists every game.', imposters:1 },
+  SPY: { name:'Spy', icon:'🔍', desc:'Someone has a different word.', imposters:0 },
+  MULTI: { name:'Multiple Imposters', icon:'👥', desc:'Two or more imposters.', imposters:2 },
+  HIDDEN: { name:'Hidden Teams', icon:'👯', desc:'Two word groups. Find the others.', imposters:0 },
+  CUSTOM: { name:'Custom', icon:'🛠️', desc:'Your rules, your chaos.', imposters:1 },
+  SPEED: { name:'Speed', icon:'⚡', desc:'Half timers. No mercy.', imposters:1 },
+  RANKED: { name:'Ranked', icon:'🏆', desc:'Competitive ruleset.', imposters:1 }
+};
+const ROLE_META = {
+  NORMAL: { name:'Normal Player', icon:'🙂', cls:'normal',
+    desc:'You know the secret word. Give clues that prove you know it — without saying it.' },
+  IMPOSTER: { name:'Imposter', icon:'🕵️', cls:'imposter',
+    desc:'You do NOT know the secret word. Blend in, fake your clues, and survive the vote.' },
+  SPY: { name:'The Spy', icon:'🔍', cls:'spy',
+    desc:'You received a related but DIFFERENT word. Survive the vote to win.' },
+  DETECTIVE: { name:'The Detective', icon:'🔎', cls:'detective',
+    desc:'You know the word. Once this game you may investigate a player to learn if they are an imposter.' },
+  JESTER: { name:'The Jester', icon:'🃏', cls:'jester',
+    desc:'You know the word. Get yourself voted out — that is how you win!' },
+  AMNESIAC: { name:'Amnesiac', icon:'💭', cls:'amnesiac',
+    desc:'You do NOT know the word. Infer it from the clues and win with the normal team.' },
+  TWIN_A: { name:'Group A', icon:'🅰️', cls:'twin',
+    desc:"You hold your group's word. Find players holding a different word." },
+  TWIN_B: { name:'Group B', icon:'🅱️', cls:'twin',
+    desc:"You hold your group's word. Find players holding a different word." }
+};
+const AVATARS = ['🕵️','👽','🤖','🦊','🐼','🐸','🦁','🐙','🦉','🐺','🦄','🐷','👻','🎃','😎','🥷','🐯','🐨'];
+const EMOJI_CLUES = ['😀','😐','🤔','😅','👍','🤷','🎉','😴','🔥','💀','🍕','🌙','⭐','❓','😱','🙈'];
+const ACHIEVEMENTS = [
+  { id:'FIRST_GAME', icon:'🎮', name:'First Game', desc:'Complete your first game.' },
+  { id:'FIRST_WIN', icon:'🥇', name:'First Win', desc:'Win a game.' },
+  { id:'IMPOSTER_WIN', icon:'🕵️', name:'First Imposter Win', desc:'Win a game as the imposter.' },
+  { id:'MASTER_DECEIVER',icon:'🎭', name:'Master Deceiver', desc:'Win 5 games as the imposter.' },
+  { id:'PERFECT_DETECTIVE', icon:'🔎', name:'Perfect Detective', desc:'Win as the Detective.' },
+  { id:'FIVE_STREAK', icon:'🔥', name:'Five Consecutive Wins', desc:'Win 5 games in a row.' },
+  { id:'CHAOS_SURVIVOR', icon:'🎲', name:'Chaos Survivor', desc:'Win a Chaos Mode game.' },
+  { id:'JESTER_TRIUMPH', icon:'🃏', name:"Jester's Triumph", desc:'Win as the Jester.' },
+  { id:'HUNDRED_GAMES', icon:'💯', name:'100 Games Played', desc:'Play 100 games.' },
+  { id:'SPY_MASTER', icon:'🔍', name:'Spy Master', desc:'Win as the Spy.' },
+  { id:'TWIN_WIN', icon:'👯', name:'Twin Winner', desc:'Win a Hidden Teams game.' },
+  { id:'SILENT_SURVIVOR',icon:'🤐', name:'Silent Survivor', desc:'Win with the Silent Imposter twist.' },
+  { id:'SPEED_DEMON', icon:'⚡', name:'Speed Demon', desc:'Win a Speed Mode game.' },
+  { id:'PARTNERED', icon:'🤝', name:'Better Together', desc:'Both Secret Partners survive to victory.' }
+];
+const ACH_MAP = Object.fromEntries(ACHIEVEMENTS.map(a => [a.id, a]));
+/* ---------------------------------------------------------------
+   3. APPLICATION STATE
+--------------------------------------------------------------- */
+const state = {
+  screen: 'splash',
+  user: null, // active profile object (or guest profile)
+  isGuest: false,
+  profiles: {}, // persisted accounts keyed by lowercase username
+  settings: { sound: true, reducedMotion: false, haptics: true },
+  draft: null, // game setup draft
+  game: null, // active game object
+  ui: {}, // transient screen state
+  splashDone: false
+};
+let timerRef = null; // { end, onEnd, fired }
+/* ---------------------------------------------------------------
+   4. AUDIO (synthesised with WebAudio — no copyrighted assets)
+--------------------------------------------------------------- */
+let audioCtx = null;
+function ensureAudio() {
+  if (!state.settings.sound) return null;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  } catch (e) { return null; }
+}
+function beep(freq = 440, dur = 0.09, type = 'sine', gain = 0.06) {
+  const ctx = ensureAudio();
+  if (!ctx) return;
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.type = type;
+  o.frequency.value = freq;
+  g.gain.setValueAtTime(gain, ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + dur);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(); o.stop(ctx.currentTime + dur);
+}
+const SFX = {
+  tap: () => beep(520, 0.06, 'triangle', 0.05),
+  reveal: () => { beep(340, 0.12, 'sine', .07); setTimeout(() => beep(560, 0.16, 'sine', .06), 90); },
+  vote: () => beep(300, 0.1, 'square', 0.04),
+  eliminate:() => { beep(200, 0.2, 'sawtooth', .06); setTimeout(() => beep(120, 0.3, 'sawtooth', .05), 140); },
+  win: () => { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => beep(f, 0.18, 'sine', .07), i * 110)); },
+  lose: () => { [400, 320, 240].forEach((f, i) => setTimeout(() => beep(f, 0.2, 'triangle', .06), i * 130)); },
+  tick: () => beep(880, 0.04, 'square', 0.03)
+};
+function vibrate(ms = 15) {
+  if (state.settings.haptics && navigator.vibrate) { try { navigator.vibrate(ms); } catch (e) {} }
+}
+/* ---------------------------------------------------------------
+   5. PROFILE / ACCOUNT SYSTEM
+--------------------------------------------------------------- */
+function levelFromXp(xp) {
+  let level = 1, need = 0, step = 220;
+  while (xp >= need + step && level < 200) { need += step; level++; step = Math.floor(step * 1.18); }
+  return { level, into: xp - need, need: step };
+}
+function createProfile(username, displayName, pin, avatar) {
+  return {
+    id: 'u_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+    username,
+    displayName: displayName || username,
+    avatar: avatar || '🕵️',
+    pin: pin ? hashPin(pin) : '',
+    xp: 0,
+    matches: 0, wins: 0, losses: 0,
+    imposterWins: 0, normalWins: 0, specialWins: 0,
+    streak: 0, bestStreak: 0,
+    achievements: {},
+    history: [],
+    createdAt: Date.now()
+  };
+}
+function loadProfiles() { state.profiles = LS.get('profiles', {}); }
+function saveProfiles() { LS.set('profiles', state.profiles); }
+function saveSession() {
+  if (state.user && !state.isGuest) LS.set('session', state.user.username.toLowerCase());
+  else LS.set('session', null);
+}
+function registerAccount(username, displayName, pin, avatar) {
+  const key = String(username || '').trim().toLowerCase();
+  if (!key) return { error: 'Username is required.' };
+  if (!/^[a-z0-9_]{3,18}$/.test(key)) return { error: '3–18 characters: letters, numbers, underscore.' };
+  if (!pin || String(pin).length < 4) return { error: 'PIN must be at least 4 characters.' };
+  if (state.profiles[key]) return { error: 'That username already exists on this device.' };
+  const p = createProfile(key, displayName, pin, avatar);
+  state.profiles[key] = p;
+  saveProfiles();
+  return { profile: p };
+}
+function loginAccount(username, pin) {
+  const key = String(username || '').trim().toLowerCase();
+  const p = state.profiles[key];
+  if (!p) return { error: 'No account found with that username.' };
+  if (p.pin !== hashPin(String(pin || ''))) return { error: 'Incorrect PIN.' };
+  return { profile: p };
+}
+function guestLogin(name) {
+  const g = createProfile('guest_' + Math.random().toString(36).slice(2, 6), name || 'Guest', '', pick(AVATARS));
+  g.isGuest = true;
+  return g;
+}
+/* ---------------------------------------------------------------
+   6. GAME ENGINE
+--------------------------------------------------------------- */
+function defaultDraft() {
+  return {
+    players: [
+      { name: 'Player 1', avatar: '🕵️' },
+      { name: 'Player 2', avatar: '👽' },
+      { name: 'Player 3', avatar: '🤖' },
+      { name: 'Player 4', avatar: '🦊' }
+    ],
+    meIndex: 0,
+    mode: 'CLASSIC',
+    categories: [],
+    difficulties: ['EASY', 'MEDIUM', 'HARD'],
+    language: 'both',
+    twists: [],
+    imposters: 1,
+    timers: true,
+    discussTime: 60,
+    finalGuess: true,
+    anonymousVote: false
+  };
+}
+function wordPool(draft) {
+  let pool = WORDS.filter((w) => {
+    if (draft.categories.length && !draft.categories.includes(w.cat)) return false;
+    if (draft.difficulties.length && !draft.difficulties.includes(w.diff)) return false;
+    if (draft.language === 'en' && w.lang !== 'en') return false;
+    if (draft.language === 'fil' && w.lang !== 'fil') return false;
+    return true;
+  });
+  if (!pool.length) pool = WORDS.slice(); // graceful fallback
+  return pool;
+}
+function relatedWord(word, pool) {
+  const pair = WORD_PAIRS.find((p) => p.includes(word.w));
+  if (pair) {
+    const other = pair[0] === word.w ? pair[1] : pair[0];
+    const found = WORDS.find((x) => x.w.toLowerCase() === other.toLowerCase());
+    if (found) return found;
+  }
+  const sameCat = pool.filter((x) => x.cat === word.cat && x.w !== word.w);
+  if (sameCat.length) return pick(sameCat);
+  const any = WORDS.filter((x) => x.w !== word.w);
+  return pick(any);
+}
+/* Twist compatibility resolution */
+function resolveTwists(mode, selected, playerCount) {
+  let list = selected.slice();
+  if (mode === 'SPY') list = list.filter((t) => t !== 'HIDDEN_TWIN_WORDS');
+  if (mode === 'HIDDEN') list = ['HIDDEN_TWIN_WORDS'];
+  if (mode === 'CHAOS') list.push('RANDOM_CHAOS');
+  // Expand Random Chaos into a real twist
+  if (list.includes('RANDOM_CHAOS')) {
+    const candidates = TWIST_DEFS
+      .filter((t) => t.id !== 'RANDOM_CHAOS')
+      .filter((t) => t.min <= playerCount)
+      .filter((t) => !list.some((x) => TWIST_MAP[x] && TWIST_MAP[x].conflicts.includes(t.id)))
+      .filter((t) => !(mode === 'HIDDEN' && t.id === 'HIDDEN_TWIN_WORDS'));
+    list = list.filter((t) => t !== 'RANDOM_CHAOS');
+    if (candidates.length) {
+      const chosen = pick(candidates);
+      list.push(chosen.id);
+      if (chosen.id === 'DOUBLE_IMPOSTER' || chosen.id === 'HIDDEN_TWIN_WORDS') {
+        list.push('RANDOM_CHAOS_FLAG:' + chosen.name);
+      }
+    }
+  }
+  // Remove incompatible twists
+  const final = [];
+  list.forEach((id) => {
+    if (id.startsWith('RANDOM_CHAOS_FLAG:')) return;
+    const def = TWIST_MAP[id];
+    if (!def) return;
+    if (def.min > playerCount) return;
+    if (final.some((f) => def.conflicts.includes(f))) return;
+    if (TWIST_MAP[id].conflicts.some((c) => final.includes(c))) return;
+    final.push(id);
+  });
+  return final;
+}
+function createGame(draft) {
+  const n = draft.players.length;
+  const twists = resolveTwists(draft.mode, draft.twists, n);
+  const mode = draft.mode;
+  // ---- determine game "kind" ----
+  let kind = 'IMPOSTER';
+  if (mode === 'SPY' || twists.includes('SPY')) kind = 'SPY';
+  if (mode === 'HIDDEN' || twists.includes('HIDDEN_TWIN_WORDS')) kind = 'TWIN';
+  // ---- imposter count ----
+  let imposters = 1;
+  if (mode === 'MULTI') imposters = Math.max(2, draft.imposters | 0);
+  else if (twists.includes('DOUBLE_IMPOSTER')) imposters = 2;
+  else imposters = Math.max(1, draft.imposters | 0);
+  const maxImp = Math.max(1, Math.floor((n - 1) / 2));
+  imposters = clamp(imposters, 1, maxImp);
+  // ---- players ----
+  const players = draft.players.map((p, i) => ({
+    id: i,
+    name: (p.name || ('Player ' + (i + 1))).slice(0, 18),
+    avatar: p.avatar || AVATARS[i % AVATARS.length],
+    role: 'NORMAL',
+    word: null,
+    cat: null,
+    alive: true,
+    clue: '',
+    vote: null,
+    eliminatedRound: 0,
+    investigated: false,
+    partner: null,
+    revived: false
+  }));
+  const pool = wordPool(draft);
+  const idx = shuffle(players.map((p) => p.id));
+  // ---- word + role distribution ----
+  let mainWord = null;
+  if (kind === 'TWIN') {
+    const wa = pick(pool);
+    const wb = relatedWord(wa, pool);
+    mainWord = wa;
+    const half = Math.ceil(n / 2);
+    const groupA = idx.slice(0, half);
+    const groupB = idx.slice(half);
+    groupA.forEach((i) => { players[i].role = 'TWIN_A'; players[i].word = wa.w; players[i].cat = wa.cat; });
+    groupB.forEach((i) => { players[i].role = 'TWIN_B'; players[i].word = wb.w; players[i].cat = wb.cat; });
+  } else if (kind === 'SPY') {
+    const wa = pick(pool);
+    const wb = relatedWord(wa, pool);
+    mainWord = wa;
+    players.forEach((p) => { p.role = 'NORMAL'; p.word = wa.w; p.cat = wa.cat; });
+    const spyIdx = idx[0];
+    players[spyIdx].role = 'SPY';
+    players[spyIdx].word = wb.w;
+    players[spyIdx].cat = wb.cat;
+  } else {
+    const wa = pick(pool);
+    mainWord = wa;
+    players.forEach((p) => { p.role = 'NORMAL'; p.word = wa.w; p.cat = wa.cat; });
+    idx.slice(0, imposters).forEach((i) => { players[i].role = 'IMPOSTER'; players[i].word = null; });
+  }
+  // ---- special roles among remaining normals ----
+  const normalSlots = shuffle(players.filter((p) => p.role === 'NORMAL').map((p) => p.id));
+  let ptr = 0;
+  const takeSlot = () => (ptr < normalSlots.length ? normalSlots[ptr++] : null);
+  if (kind === 'IMPOSTER') {
+    if (twists.includes('JESTER')) { const s = takeSlot(); if (s != null) players[s].role = 'JESTER'; }
+    if (twists.includes('DETECTIVE')) { const s = takeSlot(); if (s != null) players[s].role = 'DETECTIVE'; }
+    if (twists.includes('AMNESIAC')) {
+      const s = takeSlot();
+      if (s != null) { players[s].role = 'AMNESIAC'; players[s].word = null; }
+    }
+    if (twists.includes('SECRET_PARTNERS') && ptr + 1 < normalSlots.length) {
+      const a = takeSlot(), b = takeSlot();
+      if (a != null && b != null) { players[a].partner = b; players[b].partner = a; }
+    }
+  }
+  // ---- timers ----
+  let discussTime = draft.discussTime;
+  if (twists.includes('SUDDEN_DEATH') || mode === 'SPEED') discussTime = Math.max(15, Math.round(discussTime / 2));
+  const g = {
+    mode,
+    kind,
+    twists,
+    settings: {
+      timers: draft.timers,
+      discussTime,
+      finalGuess: draft.finalGuess,
+      anonymousVote: draft.anonymousVote
+    },
+    players,
+    meIndex: clamp(draft.meIndex | 0, 0, n - 1),
+    mainWord: mainWord.w,
+    mainCat: mainWord.cat,
+    pool,
+    round: 1,
+    phase: 'ROLE_REVEAL',
+    revealIndex: 0,
+    turnOrder: [],
+    turnIdx: 0,
+    voteOrder: [],
+    voteIdx: 0,
+    voteTally: [],
+    voteTop: [],
+    eliminated: null,
+    finalGuessUsed: false,
+    finalGuesser: null,
+    wordSwitched: false,
+    reviveUsed: false,
+    log: [],
+    winner: null,
+    reason: '',
+    rewardsApplied: false,
+    tieCount: 0
+  };
+  return g;
+}
+/* ---- role / outcome helpers ---- */
+function alivePlayers(g) { return g.players.filter((p) => p.alive); }
+function isNormalTeam(role) {
+  return ['NORMAL', 'DETECTIVE', 'AMNESIAC'].includes(role);
+}
+function teamOf(role) {
+  if (role === 'IMPOSTER') return 'IMPOSTER';
+  if (role === 'SPY') return 'SPY';
+  if (role === 'JESTER') return 'JESTER';
+  if (role === 'TWIN_A') return 'TWIN_A';
+  if (role === 'TWIN_B') return 'TWIN_B';
+  return 'NORMAL';
+}
+function playerWon(p, g) {
+  const w = g.winner;
+  if (!w) return false;
+  if (w === 'NORMAL') return isNormalTeam(p.role);
+  if (w === 'IMPOSTER') return p.role === 'IMPOSTER';
+  if (w === 'SPY') return p.role === 'SPY';
+  if (w === 'JESTER') return p.role === 'JESTER';
+  if (w === 'TWIN_A') return p.role === 'TWIN_A';
+  if (w === 'TWIN_B') return p.role === 'TWIN_B';
+  return false;
+}
+/* ---------------------------------------------------------------
+   7. GAME FLOW
+--------------------------------------------------------------- */
+function go(screen, data) {
+  state.screen = screen;
+  if (data !== undefined) state.ui = Object.assign({}, state.ui, data);
+  if (screen !== 'discussion') stopTimer();
+  render();
+  window.scrollTo(0, 0);
+}
+function startGame() {
+  const d = state.draft;
+  if (d.players.length < 3) { toast('You need at least 3 players.', 'bad'); return; }
+  const names = d.players.map((p) => (p.name || '').trim().toLowerCase());
+  if (new Set(names).size !== names.length) { toast('Player names must be unique.', 'bad'); return; }
+  state.game = createGame(d);
+  state.ui = { revealStage: 'pass', clueStage: 'pass', voteStage: 'pass', clueText: '', investigateResult: null };
+  SFX.reveal();
+  go('roleReveal');
+}
+function nextReveal() {
+  const g = state.game;
+  g.revealIndex++;
+  state.ui.revealStage = 'pass';
+  if (g.revealIndex >= g.players.length) beginClueRound();
+  else render();
+}
+function beginClueRound() {
+  const g = state.game;
+  g.phase = 'CLUE_ROUND';
+  g.players.forEach((p) => { p.clue = ''; });
+  g.turnOrder = alivePlayers(g).map((p) => p.id);
+  g.turnIdx = 0;
+  state.ui.clueStage = 'pass';
+  state.ui.clueText = '';
+  state.ui.investigateResult = null;
+  go('clue');
+}
+function nextClue() {
+  const g = state.game;
+  g.turnIdx++;
+  state.ui.clueStage = 'pass';
+  state.ui.clueText = '';
+  state.ui.investigateResult = null;
+  if (g.turnIdx >= g.turnOrder.length) {
+    go('discussion');
+    startDiscussionTimer();
+  } else render();
+}
+function startDiscussionTimer() {
+  const g = state.game;
+  if (!g.settings.timers) return;
+  startTimer(g.settings.discussTime, () => {
+    SFX.tick();
+    toast('Discussion time is up!');
+    beginVoting();
+  });
+}
+function beginVoting() {
+  const g = state.game;
+  g.phase = 'VOTING';
+  g.voteOrder = alivePlayers(g).map((p) => p.id);
+  g.voteIdx = 0;
+  g.players.forEach((p) => { p.vote = null; });
+  state.ui.voteStage = 'pass';
+  go('voting');
+}
+function submitVote(targetId) {
+  const g = state.game;
+  const voter = g.players[g.voteOrder[g.voteIdx]];
+  if (!voter) return;
+  voter.vote = targetId;
+  SFX.vote();
+  g.voteIdx++;
+  state.ui.voteStage = 'pass';
+  if (g.voteIdx >= g.voteOrder.length) resolveVotes();
+  else render();
+}
+function resolveVotes() {
+  const g = state.game;
+  const alive = alivePlayers(g);
+  const tally = {};
+  alive.forEach((p) => { if (p.vote != null) tally[p.vote] = (tally[p.vote] || 0) + 1; });
+  const entries = Object.keys(tally).map((k) => ({ id: Number(k), count: tally[k] }));
+  entries.sort((a, b) => b.count - a.count || a.id - b.id);
+  const max = entries.length ? entries[0].count : 0;
+  const top = entries.filter((e) => e.count === max).map((e) => e.id);
+  g.voteTally = entries;
+  g.voteTop = top;
+  g.eliminated = top.length === 1 ? top[0] : null;
+  g.phase = 'VOTE_RESULTS';
+  go('voteResults');
+}
+function applyElimination() {
+  const g = state.game;
+  // Tie → nobody leaves
+  if (g.eliminated == null) {
+    g.tieCount++;
+    g.log.push('Round ' + g.round + ': tie vote — nobody eliminated.');
+    if (g.tieCount >= 2) {
+      // Break the deadlock with a random tied player
+      const pool = g.voteTop.length ? g.voteTop : alivePlayers(g).map((p) => p.id);
+      g.eliminated = pick(pool);
+      g.tieBroken = true;
+    } else {
+      g.round++;
+      nextRound();
+      return;
+    }
+  }
+  const p = g.players[g.eliminated];
+  // Second Chance twist: first elimination is undone once
+  if (g.twists.includes('SECOND_CHANCE') && !g.reviveUsed) {
+    g.reviveUsed = true;
+    p.revived = true;
+    SFX.reveal();
+    go('elimination', { secondChance: true });
+    return;
+  }
+  g.tieCount = 0;
+  p.alive = false;
+  p.eliminatedRound = g.round;
+  g.log.push('Round ' + g.round + ': ' + p.name + ' was eliminated.');
+  SFX.eliminate();
+  go('elimination');
+}
+function afterElimination() {
+  const g = state.game;
+  if (state.ui.secondChance) {
+    state.ui.secondChance = false;
+    g.round++;
+    nextRound();
+    return;
+  }
+  const p = g.players[g.eliminated];
+  // ---- Jester instant victory ----
+  if (p.role === 'JESTER') {
+    return gameOver('JESTER', 'The Jester was voted out — exactly what the Jester wanted!');
+  }
+  // ---- Hidden Twin Words: eliminated player's group loses ----
+  if (g.kind === 'TWIN') {
+    const loserGroup = p.role;
+    const winner = loserGroup === 'TWIN_A' ? 'TWIN_B' : 'TWIN_A';
+    return gameOver(winner, 'A player from ' + ROLE_META[loserGroup].name + ' was eliminated — the other group wins!');
+  }
+  const alive = alivePlayers(g);
+  const impostersAlive = alive.filter((x) => x.role === 'IMPOSTER');
+  const spyAlive = alive.filter((x) => x.role === 'SPY');
+  const normalsAlive = alive.filter((x) => !['IMPOSTER', 'SPY', 'JESTER'].includes(x.role));
+  // ---- Spy mode ----
+  if (g.kind === 'SPY') {
+    if (spyAlive.length === 0) return gameOver('NORMAL', 'The Spy was caught. The normal team wins!');
+    if (alive.length <= 2) return gameOver('SPY', 'The Spy survived to the final two. The Spy wins!');
+    g.round++;
+    return nextRound();
+  }
+  // ---- Classic imposter logic ----
+  if (impostersAlive.length === 0) {
+    // Final guess opportunity for the last eliminated imposter
+    if (g.settings.finalGuess && !g.finalGuessUsed && p.role === 'IMPOSTER') {
+      g.finalGuessUsed = true;
+      g.finalGuesser = p.id;
+      return go('finalGuess');
+    }
+    return gameOver('NORMAL', 'All imposters were eliminated. The normal team wins!');
+  }
+  if (impostersAlive.length >= normalsAlive.length) {
+    return gameOver('IMPOSTER', 'The imposters reached parity. The imposters win!');
+  }
+  g.round++;
+  nextRound();
+}
+function nextRound() {
+  const g = state.game;
+  // Word Switch twist (once, from round 2)
+  if (g.twists.includes('WORD_SWITCH') && !g.wordSwitched && g.round >= 2) {
+    g.wordSwitched = true;
+    const candidates = g.pool.filter((w) => w.w !== g.mainWord);
+    const nw = candidates.length ? pick(candidates) : pick(WORDS);
+    g.mainWord = nw.w;
+    g.mainCat = nw.cat;
+    g.players.forEach((p) => {
+      if ((isNormalTeam(p.role) && p.role !== 'AMNESIAC') || p.role === 'JESTER') { p.word = nw.w; p.cat = nw.cat; }
+    });
+    g.log.push('The secret word changed!');
+    toast('🔄 The secret word has changed!', '');
+  }
+  beginClueRound();
+}
+function submitFinalGuess(text) {
+  const g = state.game;
+  const guess = String(text || '').trim().toLowerCase();
+  const correct = guess.length > 0 && guess === String(g.mainWord).toLowerCase();
+  g.finalGuessResult = { guess: String(text || '').trim(), correct };
+  if (correct) {
+    gameOver('IMPOSTER', 'The imposter guessed the secret word — the imposters win!');
+  } else {
+    gameOver('NORMAL', 'The final guess was wrong. The normal team wins!');
+  }
+}
+function gameOver(winner, reason) {
+  const g = state.game;
+  g.phase = 'GAME_OVER';
+  g.winner = winner;
+  g.reason = reason || '';
+  applyRewards();
+  if (winner === 'IMPOSTER' || winner === 'SPY' || winner === 'JESTER') SFX.lose();
+  else SFX.win();
+  go('results');
+}
+/* ---------------------------------------------------------------
+   8. REWARDS / XP / ACHIEVEMENTS
+--------------------------------------------------------------- */
+function applyRewards() {
+  const g = state.game;
+  if (g.rewardsApplied) return;
+  g.rewardsApplied = true;
+  const me = g.players[g.meIndex];
+  const u = state.user;
+  if (!u || !me) { g.rewardSummary = null; return; }
+  const won = playerWon(me, g);
+  const breakdown = [];
+  let xp = 30;
+  breakdown.push({ label: 'Participation', amount: 30 });
+  if (won) { xp += 60; breakdown.push({ label: 'Victory', amount: 60 }); }
+  if (won && me.role === 'IMPOSTER') { xp += 40; breakdown.push({ label: 'Imposter win bonus', amount: 40 }); }
+  if (won && !isNormalTeam(me.role) && me.role !== 'IMPOSTER') { xp += 30; breakdown.push({ label: 'Special role bonus', amount: 30 }); }
+  if (me.alive) { xp += 15; breakdown.push({ label: 'Survived', amount: 15 }); }
+  if (me.partner != null && won) {
+    const partner = g.players[me.partner];
+    if (partner && partner.alive && me.alive) { xp += 25; breakdown.push({ label: 'Partners survived', amount: 25 }); }
+  }
+  // ---- stats ----
+  u.matches = (u.matches || 0) + 1;
+  if (won) {
+    u.wins = (u.wins || 0) + 1;
+    u.streak = (u.streak || 0) + 1;
+    u.bestStreak = Math.max(u.bestStreak || 0, u.streak);
+    if (me.role === 'IMPOSTER') u.imposterWins = (u.imposterWins || 0) + 1;
+    else if (isNormalTeam(me.role)) u.normalWins = (u.normalWins || 0) + 1;
+    else u.specialWins = (u.specialWins || 0) + 1;
+  } else {
+    u.losses = (u.losses || 0) + 1;
+    u.streak = 0;
+  }
+  // ---- achievements ----
+  const unlocked = [];
+  const grant = (id) => {
+    if (!u.achievements) u.achievements = {};
+    if (u.achievements[id]) return;
+    u.achievements[id] = Date.now();
+    unlocked.push(ACH_MAP[id]);
+    xp += 25;
+  };
+  grant('FIRST_GAME');
+  if (won) grant('FIRST_WIN');
+  if (won && me.role === 'IMPOSTER') grant('IMPOSTER_WIN');
+  if (won && me.role === 'DETECTIVE') grant('PERFECT_DETECTIVE');
+  if (won && me.role === 'JESTER') grant('JESTER_TRIUMPH');
+  if (won && me.role === 'SPY') grant('SPY_MASTER');
+  if (won && me.role === 'TWIN_A' || (won && me.role === 'TWIN_B')) grant('TWIN_WIN');
+  if (won && g.mode === 'CHAOS') grant('CHAOS_SURVIVOR');
+  if (won && g.mode === 'SPEED') grant('SPEED_DEMON');
+  if (won && g.twists.includes('SILENT_IMPOSTER')) grant('SILENT_SURVIVOR');
+  if (won && me.partner != null) {
+    const partner = g.players[me.partner];
+    if (partner && partner.alive && me.alive) grant('PARTNERED');
+  }
+  if ((u.imposterWins || 0) >= 5) grant('MASTER_DECEIVER');
+  if ((u.bestStreak || 0) >= 5) grant('FIVE_STREAK');
+  if ((u.matches || 0) >= 100) grant('HUNDRED_GAMES');
+  u.xp = (u.xp || 0) + xp;
+  u.level = levelFromXp(u.xp).level;
+  // ---- history ----
+  u.history = u.history || [];
+  u.history.unshift({
+    date: Date.now(),
+    mode: g.mode,
+    winner: g.winner,
+    won,
+    role: me.role,
+    word: g.mainWord,
+    category: g.mainCat,
+    players: g.players.length,
+    xp
+  });
+  u.history = u.history.slice(0, 60);
+  if (!state.isGuest) {
+    state.profiles[u.username.toLowerCase()] = u;
+    saveProfiles();
+  }
+  g.rewardSummary = { xp, breakdown, unlocked, won };
+}
+/* ---------------------------------------------------------------
+   9. TIMER
+--------------------------------------------------------------- */
+function startTimer(seconds, onEnd) {
+  stopTimer();
+  timerRef = { end: Date.now() + seconds * 1000, onEnd, fired: false, total: seconds };
+}
+function stopTimer() { timerRef = null; }
+setInterval(() => {
+  if (!timerRef) return;
+  const left = Math.max(0, timerRef.end - Date.now());
+  const el = document.getElementById('timerDisplay');
+  if (el) {
+    el.textContent = Math.ceil(left / 1000) + 's';
+    el.classList.toggle('low', left < 11000);
+  }
+  if (left <= 0 && !timerRef.fired) {
+    timerRef.fired = true;
+    const cb = timerRef.onEnd;
+    if (cb) cb();
+  }
+}, 200);
+/* ---------------------------------------------------------------
+   10. RENDER SYSTEM
+--------------------------------------------------------------- */
+function render() {
+  const fn = SCREENS[state.screen] || SCREENS.menu;
+  app.innerHTML = fn();
+  document.body.classList.toggle('reduce-motion', !!state.settings.reducedMotion);
+}
+/* ---- shared UI helpers ---- */
+function logoMark(size = 104) {
+  return `<svg class="logo-mark" style="width:${size}px;height:${size}px" viewBox="0 0 100 100" aria-hidden="true">
+    <defs>
+      <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#c084fc"/>
+        <stop offset="55%" stop-color="#a855f7"/>
+        <stop offset="100%" stop-color="#38bdf8"/>
+      </linearGradient>
+    </defs>
+    <path d="M50 6C29 6 15 22 15 42c0 12 5 20 5 30 0 8-4 12-4 16 0 5 5 8 10 8h48c5 0 10-3 10-8 0-4-4-8-4-16 0-10 5-18 5-30C85 22 71 6 50 6z" fill="url(#lg1)"/>
+    <ellipse cx="36" cy="43" rx="8" ry="5" fill="#0b0512"/>
+    <ellipse cx="64" cy="43" rx="8" ry="5" fill="#0b0512"/>
+    <text x="50" y="78" font-size="27" font-weight="900" text-anchor="middle" fill="#0b0512" font-family="sans-serif">?</text>
+  </svg>`;
+}
+function topBar(title, backTo) {
+  return `<div class="topbar">
+    <button class="back-btn" data-action="back" data-to="${backTo}">‹</button>
+    <div class="title">${esc(title)}</div>
+    <div class="spacer"></div>
+  </div>`;
+}
+function avatarEl(p, extraClass = '') {
+  return `<div class="avatar ${extraClass} ${p.alive === false ? 'dead' : ''}">${esc(p.avatar || '🕵️')}</div>`;
+}
+function xpBarHTML(user) {
+  if (!user) return '';
+  const lv = levelFromXp(user.xp || 0);
+  const pct = Math.min(100, Math.round((lv.into / lv.need) * 100));
+  return `<div class="card card-tight">
+    <div class="row">
+      <div class="avatar">${esc(user.avatar)}</div>
+      <div class="grow">
+        <div class="row" style="justify-content:space-between">
+          <strong style="font-size:15px">${esc(user.displayName)}</strong>
+          <span class="pill blue">LV ${lv.level}</span>
+        </div>
+        <div class="bar" style="margin-top:7px"><i style="width:${pct}%"></i></div>
+        <div class="tiny" style="margin-top:4px">${lv.into} / ${lv.need} XP</div>
+      </div>
+    </div>
+  </div>`;
+}
+/* ---------------------------------------------------------------
+   11. SCREENS
+--------------------------------------------------------------- */
+const SCREENS = {};
+/* ---------- SPLASH ---------- */
+SCREENS.splash = () => {
+  if (!state.splashDone) {
+    state.splashDone = true;
+    setTimeout(() => {
+      if (state.screen === 'splash') go(state.user ? 'menu' : 'welcome');
+    }, 1700);
+  }
+  return `<div class="screen splash center">
+    ${logoMark(130)}
+    <div class="logo-text">IMPOSTOR KA!!</div>
+    <div class="logo-sub">One word · One imposter · Trust nobody</div>
+  </div>`;
+};
+/* ---------- WELCOME ---------- */
+SCREENS.welcome = () => `<div class="screen center" style="justify-content:center">
+  <div style="flex:1"></div>
+  ${logoMark(120)}
+  <div class="logo-text">IMPOSTOR KA!!</div>
+  <div class="logo-sub">One word · One imposter · Trust nobody</div>
+  <div style="height:18px"></div>
+  <div class="col" style="width:100%;max-width:380px">
+    <button class="btn btn-primary btn-big" data-action="guest">🎮 Play as Guest</button>
+    <button class="btn" data-action="go" data-to="login">Log In</button>
+    <button class="btn btn-ghost" data-action="go" data-to="register">Create Account</button>
+  </div>
+  <div style="flex:1"></div>
+  <div class="tiny" style="opacity:.6">Offline pass-the-phone build · v1.0</div>
+</div>`;
+/* ---------- LOGIN ---------- */
+SCREENS.login = () => `<div class="screen">
+  ${topBar('Log In', 'welcome')}
+  <div class="card col">
+    <div class="field">
+      <label>Username</label>
+      <input class="input" id="loginUser" autocomplete="username" placeholder="your_username">
+    </div>
+    <div class="field">
+      <label>PIN</label>
+      <input class="input" id="loginPin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="••••">
+    </div>
+    <button class="btn btn-primary" data-action="doLogin">Log In</button>
+  </div>
+  <div class="small muted" style="text-align:center">No account yet?
+    <a href="#" data-action="go" data-to="register" style="color:var(--purple2);font-weight:800">Create one</a>
+  </div>
+</div>`;
+/* ---------- REGISTER ---------- */
+SCREENS.register = () => {
+  const av = state.ui.pickAvatar || '🕵️';
+  return `<div class="screen">
+    ${topBar('Create Account', 'welcome')}
+    <div class="card col">
+      <div class="field">
+        <label>Username</label>
+        <input class="input" id="regUser" value="${esc(state.ui.regUser || '')}" placeholder="3–18 letters/numbers/underscore">
+      </div>
+      <div class="field">
+        <label>Display Name</label>
+        <input class="input" id="regName" value="${esc(state.ui.regName || '')}" placeholder="How other players see you">
+      </div>
+      <div class="field">
+        <label>PIN (min 4 characters)</label>
+        <input class="input" id="regPin" type="password" inputmode="numeric" value="${esc(state.ui.regPin || '')}" placeholder="••••">
+      </div>
+      <div class="field">
+        <label>Avatar</label>
+        <div class="chip-grid">
+          ${AVATARS.map(a => `<div class="chip ${a === av ? 'on' : ''}" data-action="pickAvatar" data-av="${a}" style="font-size:20px;padding:8px 12px">${a}</div>`).join('')}
+        </div>
+      </div>
+      <button class="btn btn-primary" data-action="doRegister">Create Account</button>
+    </div>
+    <div class="tiny" style="text-align:center;opacity:.65">
+      Accounts are stored locally on this device. This offline build has no server.
+    </div>
+  </div>`;
+};
+/* ---------- MAIN MENU ---------- */
+SCREENS.menu = () => {
+  const u = state.user;
+  return `<div class="screen">
+    <div class="row" style="justify-content:space-between">
+      <div class="logo-sub" style="letter-spacing:.18em">IMPOSTOR KA!!</div>
+      <button class="back-btn" data-action="go" data-to="settings">⚙️</button>
+    </div>
+    ${xpBarHTML(u)}
+    <div class="col" style="gap:10px">
+      <button class="btn btn-primary btn-big" data-action="go" data-to="setup">▶️ Play</button>
+      <div class="grid2">
+        <button class="btn" data-action="quickPlay">⚡ Quick Play</button>
+        <button class="btn" data-action="go" data-to="modes">🎯 Game Modes</button>
+      </div>
+    </div>
+    <div class="grid2">
+      <button class="btn btn-ghost" data-action="go" data-to="profile">👤 Profile</button>
+      <button class="btn btn-ghost" data-action="go" data-to="leaderboard">🏆 Leaderboard</button>
+      <button class="btn btn-ghost" data-action="go" data-to="achievements">🏅 Achievements</button>
+      <button class="btn btn-ghost" data-action="go" data-to="history">📜 History</button>
+      <button class="btn btn-ghost" data-action="go" data-to="words">📚 Word Vault</button>
+      <button class="btn btn-ghost" data-action="go" data-to="rules">❓ How to Play</button>
+    </div>
+    <div class="spacer"></div>
+    <div class="tiny" style="text-align:center;opacity:.5;line-height:1.6">
+      Offline build · ${WORDS.length} words · ${Object.keys(state.profiles).length} local account(s)
+    </div>
+  </div>`;
+};
+/* ---------- GAME MODES OVERVIEW ---------- */
+SCREENS.modes = () => `<div class="screen">
+  ${topBar('Game Modes', 'menu')}
+  <div class="col">
+    ${Object.keys(MODES).map(k => {
+      const m = MODES[k];
+      return `<div class="card card-tight" data-action="pickModeAndSetup" data-mode="${k}" style="cursor:pointer">
+        <div class="row">
+          <div class="avatar">${m.icon}</div>
+          <div class="grow">
+            <div style="font-weight:900">${m.name}</div>
+            <div class="small muted">${m.desc}</div>
+          </div>
+          <div style="color:var(--purple2);font-weight:900">›</div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>
+</div>`;
+/* ---------- SETUP ---------- */
+SCREENS.setup = () => {
+  const d = state.draft || (state.draft = defaultDraft());
+  const n = d.players.length;
+  const modeInfo = MODES[d.mode];
+  const availableTwists = TWIST_DEFS.filter(t => t.min <= n);
+  const cats = Object.keys(WORD_SOURCE);
+  return `<div class="screen">
+    ${topBar('Game Setup', 'menu')}
+    <!-- PLAYERS -->
+    <div class="card">
+      <div class="row" style="justify-content:space-between;margin-bottom:10px">
+        <h3>Players <span class="pill">${n} / 12</span></h3>
+        <div class="row" style="gap:6px">
+          <button class="btn btn-sm btn-ghost" data-action="addPlayer" ${n >= 12 ? 'disabled' : ''}>+ Add</button>
+          <button class="btn btn-sm btn-ghost" data-action="removePlayer" ${n <= 3 ? 'disabled' : ''}>− Remove</button>
+        </div>
+      </div>
+      <div class="col" style="gap:8px">
+        ${d.players.map((p, i) => `
+          <div class="row">
+            <div class="avatar" data-action="cycleAvatar" data-idx="${i}" style="cursor:pointer">${p.avatar}</div>
+            <input class="input" style="padding:11px 14px" value="${esc(p.name)}"
+              data-bind="playerName" data-idx="${i}" maxlength="18" placeholder="Player ${i + 1}">
+            ${d.meIndex === i ? '<span class="pill green">YOU</span>' : `<button class="btn btn-sm btn-ghost" data-action="setMe" data-idx="${i}">me</button>`}
+          </div>`).join('')}
+      </div>
+      <div class="tiny" style="margin-top:10px">Tap an avatar to change it. Mark which player this device belongs to for XP tracking.</div>
+    </div>
+    <!-- MODE -->
+    <div class="card">
+      <h3 style="margin-bottom:10px">Game Mode</h3>
+      <div class="grid2">
+        ${Object.keys(MODES).map(k => `
+          <div class="mode-card ${d.mode === k ? 'on' : ''}" data-action="setMode" data-mode="${k}">
+            <div class="m-name">${MODES[k].icon} ${MODES[k].name}</div>
+            <div class="m-desc">${MODES[k].desc}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <!-- WORDS -->
+    <div class="card">
+      <h3 style="margin-bottom:10px">Word Categories</h3>
+      <div class="chip-grid">
+        <div class="chip ${d.categories.length === 0 ? 'on' : ''}" data-action="allCats">All Categories</div>
+        ${cats.map(c => `<div class="chip ${d.categories.includes(c) ? 'on' : ''}" data-action="toggleCat" data-cat="${esc(c)}">${esc(c)}</div>`).join('')}
+      </div>
+      <div class="divider" style="margin:14px 0"></div>
+      <h3 style="margin-bottom:10px">Difficulty</h3>
+      <div class="chip-grid">
+        ${['EASY', 'MEDIUM', 'HARD'].map(x => `<div class="chip ${d.difficulties.includes(x) ? 'on' : ''}" data-action="toggleDiff" data-diff="${x}">${x}</div>`).join('')}
+      </div>
+      <div class="divider" style="margin:14px 0"></div>
+      <h3 style="margin-bottom:10px">Language</h3>
+      <div class="seg">
+        ${[['both','Both'],['en','English'],['fil','Filipino']].map(([v, l]) => `
+          <button class="${d.language === v ? 'on' : ''}" data-action="setLang" data-lang="${v}">${l}</button>`).join('')}
+      </div>
+    </div>
+    <!-- TWISTS -->
+    <div class="card">
+      <h3 style="margin-bottom:4px">Special Twists</h3>
+      <div class="small muted" style="margin-bottom:10px">All twists are optional. Incompatible twists are filtered automatically.</div>
+      <div class="col" style="gap:8px">
+        ${availableTwists.map(t => {
+          const on = d.twists.includes(t.id);
+          const conflictsWithSelected = d.twists.some(s => TWIST_MAP[s] && TWIST_MAP[s].conflicts.includes(t.id)) ||
+                                       t.conflicts.some(c => d.twists.includes(c));
+          const disabled = !on && conflictsWithSelected;
+          return `<div class="toggle ${on ? 'on' : ''}" data-action="toggleTwist" data-twist="${t.id}"
+                    style="${disabled ? 'opacity:.35;pointer-events:none' : ''}">
+            <div class="row grow" style="gap:10px">
+              <div style="font-size:20px">${t.icon}</div>
+              <div class="grow">
+                <div style="font-weight:800;font-size:14px">${t.name}</div>
+                <div class="tiny" style="text-transform:none;letter-spacing:0;font-weight:600">${t.desc}</div>
+              </div>
+            </div>
+            <div class="sw"></div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+    <!-- ADVANCED -->
+    <div class="card">
+      <h3 style="margin-bottom:10px">Rules</h3>
+      <div class="col" style="gap:8px">
+        <div class="toggle ${d.timers ? 'on' : ''}" data-action="toggleTimers">
+          <div><div style="font-weight:800;font-size:14px">Discussion Timer</div>
+          <div class="tiny" style="text-transform:none;letter-spacing:0;font-weight:600">Auto-advance to voting</div></div>
+          <div class="sw"></div>
+        </div>
+        <div class="toggle ${d.finalGuess ? 'on' : ''}" data-action="toggleFinalGuess">
+          <div><div style="font-weight:800;font-size:14px">Final Word Guess</div>
+          <div class="tiny" style="text-transform:none;letter-spacing:0;font-weight:600">Caught imposters get one guess</div></div>
+          <div class="sw"></div>
+        </div>
+        <div class="toggle ${d.anonymousVote ? 'on' : ''}" data-action="toggleAnon">
+          <div><div style="font-weight:800;font-size:14px">Anonymous Votes</div>
+          <div class="tiny" style="text-transform:none;letter-spacing:0;font-weight:600">Hide who voted for whom</div></div>
+          <div class="sw"></div>
+        </div>
+        <div class="row" style="justify-content:space-between;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:14px">
+          <div><div style="font-weight:800;font-size:14px">Imposters</div>
+          <div class="tiny" style="text-transform:none;letter-spacing:0;font-weight:600">Max ${Math.max(1, Math.floor((n - 1) / 2))}</div></div>
+          <div class="row" style="gap:6px">
+            <button class="btn btn-sm btn-ghost" data-action="impMinus">−</button>
+            <div style="font-weight:900;min-width:26px;text-align:center">${d.imposters}</div>
+            <button class="btn btn-sm btn-ghost" data-action="impPlus">+</button>
+          </div>
+        </div>
+        <div class="row" style="justify-content:space-between;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:14px">
+          <div><div style="font-weight:800;font-size:14px">Discussion Time</div></div>
+          <div class="row" style="gap:6px">
+            <button class="btn btn-sm btn-ghost" data-action="timeMinus">−</button>
+            <div style="font-weight:900;min-width:44px;text-align:center">${d.discussTime}s</div>
+            <button class="btn btn-sm btn-ghost" data-action="timePlus">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sticky-bottom">
+      <button class="btn btn-primary btn-big" data-action="startGame">
+        🚀 Start Game · ${modeInfo.name} · ${n} players
+      </button>
+    </div>
+  </div>`;
+};
+/* ---------- ROLE REVEAL ---------- */
+SCREENS.roleReveal = () => {
+  const g = state.game;
+  if (!g) return SCREENS.menu();
+  const p = g.players[g.revealIndex];
+  if (!p) return '';
+  if (state.ui.revealStage === 'pass') {
+    return `<div class="screen center" style="justify-content:center">
+      <div class="tiny">Pass the device to</div>
+      <div class="avatar big">${esc(p.avatar)}</div>
+      <h1>${esc(p.name)}</h1>
+      <p class="muted small" style="max-width:300px">Make sure nobody else can see the screen before you continue.</p>
+      <button class="btn btn-primary btn-big" style="max-width:340px" data-action="revealStart">
+        I'm ${esc(p.name)} — Continue
+      </button>
+      <div class="tiny" style="opacity:.5">Player ${g.revealIndex + 1} of ${g.players.length}</div>
+    </div>`;
+  }
+  const meta = ROLE_META[p.role];
+  const showWord = p.word != null;
+  return `<div class="screen">
+    <div class="tiny" style="text-align:center">SECRET ROLE — ${esc(p.name)}</div>
+    <div class="role-card ${meta.cls}">
+      <div class="role-icon">${meta.icon}</div>
+      <div class="role-name">${meta.name}</div>
+      <div class="role-desc">${meta.desc}</div>
+      ${showWord ? `<div class="word-box">
+        <div class="lbl">SECRET WORD</div>
+        <div class="val">${esc(p.word)}</div>
+        <div class="cat">Category: ${esc(p.cat || '—')}</div>
+      </div>` : `<div class="word-box" style="background:rgba(244,63,94,.08);border-color:rgba(244,63,94,.4)">
+        <div class="lbl" style="color:#fb7185">NO SECRET WORD</div>
+        <div class="val" style="font-size:18px">You must bluff.</div>
+        <div class="cat">Category: ${esc(g.mainCat || '—')}</div>
+      </div>`}
+      ${p.partner != null ? `<div class="pill blue" style="margin-top:12px">🤝 You are secretly partnered with ${esc(g.players[p.partner].name)}</div>` : ''}
+    </div>
+    <div class="spacer"></div>
+    <button class="btn btn-primary btn-big" data-action="revealNext">Got it — Hide &amp; Pass</button>
+  </div>`;
+};
+/* ---------- CLUE SUBMISSION ---------- */
+SCREENS.clue = () => {
+  const g = state.game;
+  if (!g) return SCREENS.menu();
+  const p = g.players[g.turnOrder[g.turnIdx]];
+  if (!p) return '';
+  if (state.ui.clueStage === 'pass') {
+    return `<div class="screen center" style="justify-content:center">
+      <div class="tiny">Round ${g.round} · Clue time</div>
+      <div class="avatar big">${esc(p.avatar)}</div>
+      <h1>${esc(p.name)}</h1>
+      <p class="muted small" style="max-width:300px">Pass the device. Only you should see your clue screen.</p>
+      <button class="btn btn-primary btn-big" style="max-width:340px" data-action="clueStart">
+        I'm ${esc(p.name)} — Give Clue
+      </button>
+    </div>`;
+  }
+  const meta = ROLE_META[p.role];
+  const silent = g.twists.includes('SILENT_IMPOSTER') && p.role === 'IMPOSTER';
+  const isDetective = p.role === 'DETECTIVE' && (!p.investigated || !!state.ui.investigateResult);
+  return `<div class="screen">
+    <div class="row">
+      <div class="avatar">${esc(p.avatar)}</div>
+      <div class="grow">
+        <div style="font-weight:900">${esc(p.name)}</div>
+        <div class="tiny">Round ${g.round} · Clue ${g.turnIdx + 1} of ${g.turnOrder.length}</div>
+      </div>
+      <span class="pill ${meta.cls === 'imposter' ? 'red' : 'blue'}">${meta.icon} ${meta.name}</span>
+    </div>
+    <!-- private peek -->
+    <div class="peek" id="peekBox">
+      <div class="secret">
+        ${p.word != null
+          ? `<div class="tiny">Your secret word</div><div style="font-size:26px;font-weight:900;margin:2px 0">${esc(p.word)}</div>
+             <div class="small muted">Category: ${esc(p.cat || '—')}</div>`
+          : `<div class="tiny" style="color:#fb7185">You have no secret word</div>
+             <div style="font-size:18px;font-weight:800;margin:4px 0">Blend in with a convincing clue.</div>
+             <div class="small muted">Category: ${esc(g.mainCat || '—')}</div>`}
+      </div>
+      <div class="hidden-note" style="margin-top:10px">👁️ Hold to reveal</div>
+    </div>
+    <button class="btn btn-ghost btn-sm" data-hold="1" style="margin:0 auto">👁️ Hold to see your role &amp; word</button>
+    ${isDetective ? `
+      <div class="card">
+        <h3 style="margin-bottom:6px">🔎 Detective Investigation</h3>
+        <div class="small muted" style="margin-bottom:10px">One use only. Learn whether a player is an imposter.</div>
+        ${state.ui.investigateResult
+          ? `<div class="pill ${state.ui.investigateResult.isImposter ? 'red' : 'green'}" style="width:100%;justify-content:center;padding:12px">
+               ${esc(state.ui.investigateResult.name)} is ${state.ui.investigateResult.isImposter ? 'AN IMPOSTER' : 'NOT an imposter'}
+             </div>`
+          : `<div class="chip-grid">
+               ${alivePlayers(g).filter(x => x.id !== p.id).map(x =>
+                 `<div class="chip" data-action="investigate" data-target="${x.id}">${esc(x.avatar)} ${esc(x.name)}</div>`).join('')}
+             </div>`}
+      </div>` : ''}
+    ${silent ? `
+      <div class="card">
+        <h3 style="margin-bottom:6px">🤐 Silent Imposter</h3>
+        <div class="small muted" style="margin-bottom:10px">You may only send an approved emoji response.</div>
+        <div class="grid3" style="grid-template-columns:repeat(4,1fr);gap:8px">
+          ${EMOJI_CLUES.map(e => `<button class="emoji-btn" data-action="pickEmoji" data-emoji="${e}">${e}</button>`).join('')}
+        </div>
+      </div>` : `
+      <div class="card">
+        <div class="field">
+          <label>Your clue</label>
+          <textarea class="input" id="clueInput" maxlength="120" placeholder="One word or short phrase. Don't say the secret word!">${esc(state.ui.clueText || '')}</textarea>
+        </div>
+        <div class="tiny" style="margin-top:6px">Tip: a good clue proves you know the word without giving it away.</div>
+      </div>`}
+    <div class="spacer"></div>
+    <button class="btn btn-primary btn-big" data-action="submitClue" ${silent ? 'disabled' : ''} id="submitClueBtn">
+      ${silent ? 'Choose an emoji above' : 'Submit Clue'}
+    </button>
+  </div>`;
+};
+/* ---------- DISCUSSION ---------- */
+SCREENS.discussion = () => {
+  const g = state.game;
+  if (!g) return SCREENS.menu();
+  return `<div class="screen">
+    ${topBar('Discussion · Round ' + g.round, 'menu')}
+    ${g.settings.timers ? `<div class="card card-tight center">
+      <div class="tiny">Time remaining</div>
+      <div class="timer-ring" id="timerDisplay" style="font-size:34px">${g.settings.discussTime}s</div>
+    </div>` : ''}
+    <div class="small muted">Read every clue. Who sounds like they don't actually know the word?</div>
+    <div class="col" style="gap:8px">
+      ${g.turnOrder.map(id => {
+        const p = g.players[id];
+        return `<div class="clue-row ${p.alive ? '' : 'dead'}">
+          <div class="avatar sm">${esc(p.avatar)}</div>
+          <div class="grow">
+            <div class="who">${esc(p.name)}</div>
+            <div class="txt">${esc(p.clue || '— no clue —')}</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="spacer"></div>
+    <button class="btn btn-primary btn-big" data-action="beginVoting">🗳️ Start Voting</button>
+  </div>`;
+};
+/* ---------- VOTING ---------- */
+SCREENS.voting = () => {
+  const g = state.game;
+  if (!g) return SCREENS.menu();
+  const voter = g.players[g.voteOrder[g.voteIdx]];
+  if (!voter) return '';
+  if (state.ui.voteStage === 'pass') {
+    return `<div class="screen center" style="justify-content:center">
+      <div class="tiny">Secret ballot</div>
+      <div class="avatar big">${esc(voter.avatar)}</div>
+      <h1>${esc(voter.name)}</h1>
+      <p class="muted small" style="max-width:300px">Pass the device. Your vote is private.</p>
+      <button class="btn btn-primary btn-big" style="max-width:340px" data-action="voteStart">
+        I'm ${esc(voter.name)} — Vote
+      </button>
+      <div class="tiny" style="opacity:.5">${g.voteIdx + 1} of ${g.voteOrder.length}</div>
+    </div>`;
+  }
+  return `<div class="screen">
+    <div class="row">
+      <div class="avatar">${esc(voter.avatar)}</div>
+      <div class="grow">
+        <div style="font-weight:900">${esc(voter.name)}'s vote</div>
+        <div class="tiny">Choose who to eliminate</div>
+      </div>
+    </div>
+    <div class="col" style="gap:8px">
+      ${alivePlayers(g).filter(p => p.id !== voter.id).map(p => `
+        <button class="list-item" data-action="castVote" data-target="${p.id}" style="cursor:pointer;width:100%;text-align:left">
+          <div class="avatar sm">${esc(p.avatar)}</div>
+          <div class="grow">
+            <div class="name">${esc(p.name)}</div>
+            <div class="meta">"${esc(p.clue || '—')}"</div>
+          </div>
+          <div style="color:var(--purple2);font-weight:900">›</div>
+        </button>`).join('')}
+    </div>
+    <div class="spacer"></div>
+    <div class="tiny" style="text-align:center;opacity:.6">Tap a player to cast your vote.</div>
+  </div>`;
+};
+/* ---------- VOTE RESULTS ---------- */
+SCREENS.voteResults = () => {
+  const g = state.game;
+  if (!g) return SCREENS.menu();
+  const maxCount = g.voteTally.length ? g.voteTally[0].count : 1;
+  const isTie = g.eliminated == null;
+  return `<div class="screen">
+    ${topBar('Vote Results', 'menu')}
+    <div class="card">
+      <h3 style="margin-bottom:12px">${isTie ? '⚖️ It\'s a tie!' : '🗳️ The group has decided'}</h3>
+      <div class="col" style="gap:10px">
+        ${g.voteTally.length === 0 ? '<div class="muted small">No votes were cast.</div>' :
+          g.voteTally.map(e => {
+            const p = g.players[e.id];
+            return `<div class="vote-row">
+              <div class="avatar sm">${esc(p.avatar)}</div>
+              <div style="min-width:76px;font-weight:800;font-size:13.5px">${esc(p.name)}</div>
+              <div class="bar"><i style="width:${Math.round((e.count / maxCount) * 100)}%"></i></div>
+              <div class="cnt">${e.count}</div>
+            </div>`;
+          }).join('')}
+      </div>
+      ${!g.settings.anonymousVote ? `
+        <div class="divider" style="margin:14px 0"></div>
+        <div class="tiny" style="margin-bottom:8px">Ballots</div>
+        <div class="col" style="gap:6px">
+          ${alivePlayers(g).filter(p => p.vote != null).map(p => `
+            <div class="row small" style="justify-content:space-between">
+              <span class="muted">${esc(p.name)} →</span>
+              <span style="font-weight:800">${esc(g.players[p.vote] ? g.players[p.vote].name : '— ')}</span>
+            </div>`).join('')}
+        </div>` : ''}
+    </div>
+    <div class="spacer"></div>
+    ${isTie
+      ? `<button class="btn btn-primary btn-big" data-action="applyElimination">No one is eliminated — Continue</button>`
+      : `<button class="btn btn-danger btn-big" data-action="applyElimination">Reveal Elimination</button>`}
+  </div>`;
+};
+/* ---------- ELIMINATION ---------- */
+SCREENS.elimination = () => {
+  const g = state.game;
+  if (!g) return SCREENS.menu();
+  if (state.ui.secondChance) {
+    const p = g.players[g.eliminated];
+    return `<div class="screen center" style="justify-content:center">
+      <div style="font-size:64px">💫</div>
+      <h1>Second Chance!</h1>
+      <div class="avatar big">${esc(p.avatar)}</div>
+      <h2>${esc(p.name)}</h2>
+      <p class="muted" style="max-width:300px">The first elimination has been undone. ${esc(p.name)} returns to the game with their role intact.</p>
+      <button class="btn btn-primary btn-big" style="max-width:340px" data-action="afterElimination">Continue</button>
+    </div>`;
+  }
+  const p = g.players[g.eliminated];
+  const meta = ROLE_META[p.role];
+  return `<div class="screen center" style="justify-content:center">
+    <div class="tiny">Eliminated</div>
+    <div class="avatar big" style="filter:grayscale(.6)">${esc(p.avatar)}</div>
+    <h1>${esc(p.name)}</h1>
+    <div class="role-card ${meta.cls}" style="width:100%;max-width:340px">
+      <div class="role-icon">${meta.icon}</div>
+      <div class="role-name">${meta.name}</div>
+      <div class="role-desc">${meta.desc}</div>
+    </div>
+    <button class="btn btn-primary btn-big" style="max-width:340px" data-action="afterElimination">Continue</button>
+  </div>`;
+};
+/* ---------- FINAL GUESS ---------- */
+SCREENS.finalGuess = () => {
+  const g = state.game;
+  if (!g) return SCREENS.menu();
+  const p = g.players[g.finalGuesser];
+  if (!state.ui.guessStage) {
+    return `<div class="screen center" style="justify-content:center">
+      <div style="font-size:54px">🎲</div>
+      <h1>Final Guess</h1>
+      <div class="avatar big">${esc(p.avatar)}</div>
+      <h2>${esc(p.name)}</h2>
+      <p class="muted" style="max-width:320px">You were caught — but you get one last chance. Guess the secret word to steal the win.</p>
+      <button class="btn btn-primary btn-big" style="max-width:340px" data-action="guessStart">
+        I'm ${esc(p.name)} — Make My Guess
+      </button>
+    </div>`;
+  }
+  return `<div class="screen">
+    <div class="tiny" style="text-align:center">FINAL GUESS — ${esc(p.name)}</div>
+    <div class="card col">
+      <div class="field">
+        <label>What was the secret word?</label>
+        <input class="input" id="finalGuessInput" placeholder="Type your guess…" autocomplete="off">
+      </div>
+      <div class="small muted">Category: ${esc(g.mainCat)}</div>
+      <button class="btn btn-primary" data-action="submitFinalGuess">Lock In Guess</button>
+    </div>
+    <div class="spacer"></div>
+    <div class="tiny" style="text-align:center;opacity:.6">A correct guess means the imposters win.</div>
+  </div>`;
+};
+/* ---------- RESULTS ---------- */
+SCREENS.results = () => {
+  const g = state.game;
+  if (!g) return SCREENS.menu();
+  const me = g.players[g.meIndex];
+  const won = playerWon(me, g);
+  const rs = g.rewardSummary;
+  const winnerLabel = {
+    NORMAL: '🙂 Normal Team Wins',
+    IMPOSTER: '🕵️ Imposters Win',
+    SPY: '🔍 The Spy Wins',
+    JESTER: '🃏 The Jester Wins',
+    TWIN_A: '🅰️ Group A Wins',
+    TWIN_B: '🅱️ Group B Wins'
+  }[g.winner] || 'Game Over';
+  return `<div class="screen">
+    <div class="res-banner ${won ? 'win' : 'lose'}">
+      <div style="font-size:48px">${won ? '🏆' : '💀'}</div>
+      <h1 style="margin-top:6px">${won ? 'YOU WIN!' : 'YOU LOSE'}</h1>
+      <div class="pill ${won ? 'green' : 'red'}" style="margin-top:10px">${winnerLabel}</div>
+      <div class="small muted" style="margin-top:10px">${esc(g.reason)}</div>
+    </div>
+    <div class="card">
+      <div class="tiny">The secret word was</div>
+      <div style="font-size:28px;font-weight:900;margin:2px 0">${esc(g.mainWord)}</div>
+      <div class="small muted">Category: ${esc(g.mainCat)}</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:10px">All Roles</h3>
+      <div class="col" style="gap:7px">
+        ${g.players.map(p => {
+          const m = ROLE_META[p.role];
+          const w = playerWon(p, g);
+          return `<div class="row" style="opacity:${p.alive ? 1 : .6}">
+            <div class="avatar sm">${esc(p.avatar)}</div>
+            <div class="grow">
+              <div style="font-weight:800;font-size:14px">${esc(p.name)} ${p.id === g.meIndex ? '<span class="pill blue" style="padding:2px 8px;font-size:10px">YOU</span>' : ''}</div>
+              <div class="tiny" style="text-transform:none;letter-spacing:0;font-weight:700">${m.icon} ${m.name}${p.alive ? '' : ' · eliminated'}</div>
+            </div>
+            <span class="pill ${w ? 'green' : 'red'}">${w ? 'WIN' : 'LOSE'}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+    ${rs ? `<div class="card">
+      <h3 style="margin-bottom:10px">Rewards</h3>
+      <div class="col" style="gap:5px">
+        ${rs.breakdown.map(b => `<div class="row small" style="justify-content:space-between">
+          <span class="muted">${esc(b.label)}</span><span style="font-weight:800">+${b.amount} XP</span></div>`).join('')}
+      </div>
+      <div class="divider" style="margin:10px 0"></div>
+      <div class="row" style="justify-content:space-between">
+        <strong>Total</strong><strong style="color:var(--blue)">+${rs.xp} XP</strong>
+      </div>
+    </div>` : ''}
+    ${rs && rs.unlocked.length ? `<div class="card">
+      <h3 style="margin-bottom:10px">🏅 Achievements Unlocked</h3>
+      <div class="col" style="gap:8px">
+        ${rs.unlocked.map(a => `<div class="ach">
+          <div class="ic">${a.icon}</div>
+          <div class="grow"><div class="an">${esc(a.name)}</div><div class="ad">${esc(a.desc)}</div></div>
+        </div>`).join('')}
+      </div>
+    </div>` : ''}
+    <div class="spacer"></div>
+    <div class="col" style="gap:10px">
+      <button class="btn btn-primary btn-big" data-action="playAgain">🔁 Play Again</button>
+      <button class="btn" data-action="go" data-to="setup">⚙️ Change Setup</button>
+      <button class="btn btn-ghost" data-action="go" data-to="menu">🏠 Main Menu</button>
+    </div>
+  </div>`;
+};
+/* ---------- PROFILE ---------- */
+SCREENS.profile = () => {
+  const u = state.user;
+  if (!u) return SCREENS.menu();
+  const lv = levelFromXp(u.xp || 0);
+  const pct = Math.min(100, Math.round((lv.into / lv.need) * 100));
+  const winRate = u.matches ? Math.round((u.wins / u.matches) * 100) : 0;
+  const achCount = Object.keys(u.achievements || {}).length;
+  return `<div class="screen">
+    ${topBar('Profile', 'menu')}
+    <div class="card center">
+      <div class="avatar big" style="margin:0 auto">${esc(u.avatar)}</div>
+      <h2 style="margin-top:10px">${esc(u.displayName)}</h2>
+      <div class="tiny">@${esc(u.username)}${u.isGuest ? ' · guest' : ''}</div>
+      <div class="pill blue" style="margin-top:10px">Level ${lv.level}</div>
+      <div class="bar" style="margin-top:12px"><i style="width:${pct}%"></i></div>
+      <div class="tiny" style="margin-top:6px">${lv.into} / ${lv.need} XP · Total ${u.xp || 0} XP</div>
+    </div>
+    <div class="grid2">
+      <div class="card center"><div style="font-size:26px;font-weight:900">${u.matches || 0}</div><div class="tiny">Matches</div></div>
+      <div class="card center"><div style="font-size:26px;font-weight:900;color:var(--green)">${u.wins || 0}</div><div class="tiny">Wins</div></div>
+      <div class="card center"><div style="font-size:26px;font-weight:900;color:var(--red)">${u.losses || 0}</div><div class="tiny">Losses</div></div>
+      <div class="card center"><div style="font-size:26px;font-weight:900;color:var(--blue)">${winRate}%</div><div class="tiny">Win Rate</div></div>
+      <div class="card center"><div style="font-size:26px;font-weight:900">${u.streak || 0}</div><div class="tiny">Current Streak</div></div>
+      <div class="card center"><div style="font-size:26px;font-weight:900;color:var(--amber)">${u.bestStreak || 0}</div><div class="tiny">Best Streak</div></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:10px">Role Wins</h3>
+      <div class="col" style="gap:8px">
+        <div class="row" style="justify-content:space-between"><span class="muted small">🕵️ Imposter wins</span><strong>${u.imposterWins || 0}</strong></div>
+        <div class="row" style="justify-content:space-between"><span class="muted small">🙂 Normal team wins</span><strong>${u.normalWins || 0}</strong></div>
+        <div class="row" style="justify-content:space-between"><span class="muted small">✨ Special role wins</span><strong>${u.specialWins || 0}</strong></div>
+        <div class="row" style="justify-content:space-between"><span class="muted small">🏅 Achievements</span><strong>${achCount} / ${ACHIEVEMENTS.length}</strong></div>
+      </div>
+    </div>
+    <div class="col" style="gap:10px">
+      <button class="btn btn-ghost" data-action="go" data-to="achievements">🏅 View Achievements</button>
+      <button class="btn btn-ghost" data-action="go" data-to="history">📜 Match History</button>
+      ${!u.isGuest ? `<button class="btn btn-danger" data-action="logout">Log Out</button>` :
+        `<button class="btn" data-action="go" data-to="welcome">Create an Account</button>`}
+    </div>
+  </div>`;
+};
+/* ---------- LEADERBOARD ---------- */
+SCREENS.leaderboard = () => {
+  const list = Object.values(state.profiles)
+    .map(p => ({ ...p, level: levelFromXp(p.xp || 0).level }))
+    .sort((a, b) => (b.xp || 0) - (a.xp || 0));
+  if (state.user && !state.isGuest) {
+    const key = state.user.username.toLowerCase();
+    if (!list.find(p => p.username.toLowerCase() === key)) {
+      list.push({ ...state.user, level: levelFromXp(state.user.xp || 0).level });
+      list.sort((a, b) => (b.xp || 0) - (a.xp || 0));
+    }
+  }
+  return `<div class="screen">
+    ${topBar('Leaderboard', 'menu')}
+    <div class="small muted">Ranked by total XP across all accounts stored on this device.</div>
+    ${list.length === 0 ? `<div class="card center muted">No accounts yet. Create one to appear here.</div>` : `
+      <div class="col" style="gap:8px">
+        ${list.map((p, i) => `
+          <div class="list-item">
+            <div style="width:28px;text-align:center;font-weight:900;font-size:16px;color:${i === 0 ? 'var(--amber)' : i === 1 ? '#cbd5e1' : i === 2 ? '#d97706' : 'var(--muted)'}">
+              ${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '#' + (i + 1)}
+            </div>
+            <div class="avatar sm">${esc(p.avatar)}</div>
+            <div class="grow">
+              <div class="name">${esc(p.displayName)}</div>
+              <div class="meta">LV ${p.level} · ${p.wins || 0}W / ${p.losses || 0}L</div>
+            </div>
+            <strong style="color:var(--blue);font-size:14px">${p.xp || 0}</strong>
+          </div>`).join('')}
+      </div>`}
+    <div class="spacer"></div>
+    <div class="tiny" style="text-align:center;opacity:.55;line-height:1.6">
+      Global, weekly, monthly and seasonal leaderboards require the IMPOSTOR KA!! server backend.
+    </div>
+  </div>`;
+};
+/* ---------- ACHIEVEMENTS ---------- */
+SCREENS.achievements = () => {
+  const u = state.user;
+  const have = (u && u.achievements) || {};
+  return `<div class="screen">
+    ${topBar('Achievements', 'profile')}
+    <div class="small muted">${Object.keys(have).length} of ${ACHIEVEMENTS.length} unlocked</div>
+    <div class="col" style="gap:8px">
+      ${ACHIEVEMENTS.map(a => {
+        const on = !!have[a.id];
+        return `<div class="ach ${on ? '' : 'locked'}">
+          <div class="ic">${on ? a.icon : '🔒'}</div>
+          <div class="grow">
+            <div class="an">${esc(a.name)}</div>
+            <div class="ad">${esc(a.desc)}</div>
+          </div>
+          ${on ? '<span class="pill green">DONE</span>' : ''}
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+};
+/* ---------- HISTORY ---------- */
+SCREENS.history = () => {
+  const u = state.user;
+  const h = (u && u.history) || [];
+  return `<div class="screen">
+    ${topBar('Match History', 'profile')}
+    ${h.length === 0 ? `<div class="card center muted">No matches recorded yet.</div>` : `
+      <div class="col" style="gap:8px">
+        ${h.map(m => `
+          <div class="card card-tight">
+            <div class="row" style="justify-content:space-between">
+              <div class="row" style="gap:8px">
+                <div class="avatar sm">${MODES[m.mode] ? MODES[m.mode].icon : '🎮'}</div>
+                <div>
+                  <div style="font-weight:800;font-size:14px">${MODES[m.mode] ? MODES[m.mode].name : m.mode}</div>
+                  <div class="tiny">${new Date(m.date).toLocaleString()}</div>
+                </div>
+              </div>
+              <span class="pill ${m.won ? 'green' : 'red'}">${m.won ? 'WIN' : 'LOSS'}</span>
+            </div>
+            <div class="row small" style="justify-content:space-between;margin-top:8px">
+              <span class="muted">Role: ${ROLE_META[m.role] ? ROLE_META[m.role].name : m.role}</span>
+              <span class="muted">Word: <strong style="color:var(--text)">${esc(m.word)}</strong></span>
+            </div>
+            <div class="row small" style="justify-content:space-between;margin-top:4px">
+              <span class="muted">${m.players} players</span>
+              <span style="color:var(--blue);font-weight:800">+${m.xp} XP</span>
+            </div>
+          </div>`).join('')}
+      </div>`}
+  </div>`;
+};
+/* ---------- WORD VAULT ---------- */
+SCREENS.words = () => {
+  const cats = Object.keys(WORD_SOURCE);
+  const sel = state.ui.wordCat || 'ALL';
+  const search = (state.ui.wordSearch || '').toLowerCase();
+  let list = WORDS;
+  if (sel !== 'ALL') list = list.filter(w => w.cat === sel);
+  if (search) list = list.filter(w => w.w.toLowerCase().includes(search));
+  const shown = list.slice(0, 300);
+  return `<div class="screen">
+    ${topBar('Word Vault', 'menu')}
+    <div class="card card-tight">
+      <div class="row" style="justify-content:space-between">
+        <div><div style="font-weight:900;font-size:22px">${WORDS.length}</div><div class="tiny">Curated entries</div></div>
+        <div><div style="font-weight:900;font-size:22px">${cats.length}</div><div class="tiny">Categories</div></div>
+        <div><div style="font-weight:900;font-size:22px">2</div><div class="tiny">Languages</div></div>
+      </div>
+    </div>
+    <input class="input" id="wordSearch" placeholder="Search words…" value="${esc(state.ui.wordSearch || '')}" data-bind="wordSearch">
+    <div class="chip-grid">
+      <div class="chip ${sel === 'ALL' ? 'on' : ''}" data-action="wordCat" data-cat="ALL">All</div>
+      ${cats.map(c => `<div class="chip ${sel === c ? 'on' : ''}" data-action="wordCat" data-cat="${esc(c)}">${esc(c)}</div>`).join('')}
+    </div>
+    <div class="small muted">Showing ${shown.length} of ${list.length}</div>
+    <div class="col" style="gap:6px">
+      ${shown.map(w => `
+        <div class="list-item" style="padding:9px 13px">
+          <div class="grow">
+            <div class="name" style="font-size:14px">${esc(w.w)}</div>
+            <div class="meta">${esc(w.cat)}</div>
+          </div>
+          <span class="pill ${w.diff === 'EASY' ? 'green' : w.diff === 'MEDIUM' ? 'amber' : 'red'}">${w.diff}</span>
+          <span class="pill" style="font-size:10px">${w.lang === 'fil' ? 'FIL' : 'EN'}</span>
+        </div>`).join('')}
+    </div>
+  </div>`;
+};
+/* ---------- SETTINGS ---------- */
+SCREENS.settings = () => `<div class="screen">
+  ${topBar('Settings', 'menu')}
+  <div class="card col" style="gap:8px">
+    <div class="toggle ${state.settings.sound ? 'on' : ''}" data-action="toggleSound">
+      <div><div style="font-weight:800;font-size:14px">Sound Effects</div>
+      <div class="tiny" style="text-transform:none;letter-spacing:0;font-weight:600">Synthesised in-browser, no assets</div></div>
+      <div class="sw"></div>
+    </div>
+    <div class="toggle ${state.settings.reducedMotion ? 'on' : ''}" data-action="toggleMotion">
+      <div><div style="font-weight:800;font-size:14px">Reduce Motion</div>
+      <div class="tiny" style="text-transform:none;letter-spacing:0;font-weight:600">Disable animations &amp; transitions</div></div>
+      <div class="sw"></div>
+    </div>
+    <div class="toggle ${state.settings.haptics ? 'on' : ''}" data-action="toggleHaptics">
+      <div><div style="font-weight:800;font-size:14px">Haptics</div>
+      <div class="tiny" style="text-transform:none;letter-spacing:0;font-weight:600">Vibration feedback on supported devices</div></div>
+      <div class="sw"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="margin-bottom:8px">Data</h3>
+    <div class="small muted" style="margin-bottom:12px">All data is stored locally in this browser. Clearing site data removes every account and record.</div>
+    <button class="btn btn-danger" data-action="wipeData">Erase All Local Data</button>
+  </div>
+  <div class="card">
+    <h3 style="margin-bottom:8px">About</h3>
+    <div class="small muted" style="line-height:1.7">
+      <strong>IMPOSTOR KA!!</strong> — v1.0 offline build<br>
+      One word. One imposter. Trust nobody.<br><br>
+      This is the fully playable local (pass-the-phone) edition. Real online multiplayer,
+      accounts, leaderboards and admin tools require the Node/Express + Socket.IO + PostgreSQL + Redis
+      backend described in the technical design document.
+    </div>
+  </div>
+</div>`;
+/* ---------- RULES ---------- */
+SCREENS.rules = () => `<div class="screen">
+  ${topBar('How to Play', 'menu')}
+  <div class="card">
+    <h3 style="margin-bottom:8px">The Basics</h3>
+    <div class="small muted" style="line-height:1.75">
+      1. Everyone gets the same secret word — except the imposter.<br>
+      2. Each player gives a one-word clue about the secret word.<br>
+      3. The imposter has to bluff convincingly.<br>
+      4. Discuss. Then vote to eliminate the suspected imposter.<br>
+      5. Normals win when all imposters are gone. Imposters win by reaching parity — or by guessing the word after being caught.
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="margin-bottom:8px">Pass-the-Phone Flow</h3>
+    <div class="small muted" style="line-height:1.75">
+      • Roles are revealed privately — one player at a time.<br>
+      • Clue entry also passes the device around.<br>
+      • Voting is a secret ballot: each player votes alone.<br>
+      • Never show the screen to anyone else during your turn.
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="margin-bottom:8px">Roles</h3>
+    <div class="col" style="gap:10px">
+      ${Object.keys(ROLE_META).map(k => {
+        const m = ROLE_META[k];
+        return `<div class="row">
+          <div style="font-size:22px;width:30px;text-align:center">${m.icon}</div>
+          <div class="grow">
+            <div style="font-weight:800;font-size:14px">${m.name}</div>
+            <div class="tiny" style="text-transform:none;letter-spacing:0;font-weight:600">${m.desc}</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="margin-bottom:8px">Twists</h3>
+    <div class="col" style="gap:10px">
+      ${TWIST_DEFS.map(t => `<div class="row">
+        <div style="font-size:20px;width:28px;text-align:center">${t.icon}</div>
+        <div class="grow">
+          <div style="font-weight:800;font-size:14px">${t.name}</div>
+          <div class="tiny" style="text-transform:none;letter-spacing:0;font-weight:600">${t.desc}</div>
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>
+</div>`;
+/* ---------------------------------------------------------------
+   12. ACTIONS (event delegation)
+--------------------------------------------------------------- */
+const ACTIONS = {
+  /* navigation */
+  go(el) {
+    const to = el.dataset.to;
+    if (to) { SFX.tap(); go(to); }
+  },
+  back(el) {
+    SFX.tap();
+    go(el.dataset.to || 'menu');
+  },
+  /* auth */
+  guest() {
+    SFX.tap();
+    state.user = guestLogin('Guest');
+    state.isGuest = true;
+    state.draft = defaultDraft();
+    state.draft.meIndex = 0;
+    go('menu');
+  },
+  pickAvatar(el) {
+    state.ui.pickAvatar = el.dataset.av;
+    const ru = $('#regUser'), rn = $('#regName'), rp = $('#regPin');
+    if (ru) state.ui.regUser = ru.value;
+    if (rn) state.ui.regName = rn.value;
+    if (rp) state.ui.regPin = rp.value;
+    render();
+  },
+  doRegister() {
+    const username = $('#regUser').value;
+    const displayName = $('#regName').value.trim();
+    const pin = $('#regPin').value;
+    const res = registerAccount(username, displayName || username, pin, state.ui.pickAvatar || '🕵️');
+    if (res.error) { toast(res.error, 'bad'); return; }
+    state.user = res.profile;
+    state.isGuest = false;
+    state.ui.regUser = ''; state.ui.regName = ''; state.ui.regPin = '';
+    saveSession();
+    state.draft = defaultDraft();
+    toast('Welcome, ' + res.profile.displayName + '!');
+    go('menu');
+  },
+  doLogin() {
+    const username = $('#loginUser').value;
+    const pin = $('#loginPin').value;
+    const res = loginAccount(username, pin);
+    if (res.error) { toast(res.error, 'bad'); return; }
+    state.user = res.profile;
+    state.isGuest = false;
+    saveSession();
+    state.draft = defaultDraft();
+    toast('Welcome back, ' + res.profile.displayName + '!');
+    go('menu');
+  },
+  logout() {
+    state.user = null;
+    state.isGuest = false;
+    LS.set('session', null);
+    go('welcome');
+  },
+  /* setup */
+  addPlayer() {
+    const d = state.draft;
+    if (d.players.length >= 12) return;
+    d.players.push({
+      name: 'Player ' + (d.players.length + 1),
+      avatar: AVATARS[d.players.length % AVATARS.length]
+    });
+    SFX.tap();
+    render();
+  },
+  removePlayer() {
+    const d = state.draft;
+    if (d.players.length <= 3) return;
+    d.players.pop();
+    if (d.meIndex >= d.players.length) d.meIndex = d.players.length - 1;
+    render();
+  },
+  cycleAvatar(el) {
+    const i = Number(el.dataset.idx);
+    const p = state.draft.players[i];
+    const cur = AVATARS.indexOf(p.avatar);
+    p.avatar = AVATARS[(cur + 1) % AVATARS.length];
+    SFX.tap();
+    render();
+  },
+  setMe(el) {
+    state.draft.meIndex = Number(el.dataset.idx);
+    SFX.tap();
+    render();
+  },
+  setMode(el) {
+    const m = el.dataset.mode;
+    state.draft.mode = m;
+    // mode-driven defaults
+    if (m === 'MULTI') state.draft.imposters = Math.max(2, state.draft.imposters);
+    if (m === 'SPY' || m === 'HIDDEN') state.draft.imposters = 1;
+    if (m === 'SPEED') state.draft.discussTime = 30;
+    SFX.tap();
+    render();
+  },
+  pickModeAndSetup(el) {
+    state.draft = state.draft || defaultDraft();
+    state.draft.mode = el.dataset.mode;
+    go('setup');
+  },
+  allCats() {
+    state.draft.categories = [];
+    render();
+  },
+  toggleCat(el) {
+    const c = el.dataset.cat;
+    const d = state.draft;
+    const i = d.categories.indexOf(c);
+    if (i >= 0) d.categories.splice(i, 1);
+    else d.categories.push(c);
+    render();
+  },
+  toggleDiff(el) {
+    const x = el.dataset.diff;
+    const d = state.draft;
+    const i = d.difficulties.indexOf(x);
+    if (i >= 0) {
+      if (d.difficulties.length === 1) { toast('At least one difficulty is required.'); return; }
+      d.difficulties.splice(i, 1);
+    } else d.difficulties.push(x);
+    render();
+  },
+  setLang(el) {
+    state.draft.language = el.dataset.lang;
+    render();
+  },
+  toggleTwist(el) {
+    const id = el.dataset.twist;
+    const d = state.draft;
+    const i = d.twists.indexOf(id);
+    if (i >= 0) d.twists.splice(i, 1);
+    else {
+      const def = TWIST_MAP[id];
+      const conflict = d.twists.find(t => TWIST_MAP[t] && (TWIST_MAP[t].conflicts.includes(id) || def.conflicts.includes(t)));
+      if (conflict) { toast('Conflicts with ' + TWIST_MAP[conflict].name, 'bad'); return; }
+      d.twists.push(id);
+    }
+    SFX.tap();
+    render();
+  },
+  toggleTimers() { state.draft.timers = !state.draft.timers; render(); },
+  toggleFinalGuess() { state.draft.finalGuess = !state.draft.finalGuess; render(); },
+  toggleAnon() { state.draft.anonymousVote = !state.draft.anonymousVote; render(); },
+  impMinus() { state.draft.imposters = Math.max(1, state.draft.imposters - 1); render(); },
+  impPlus() {
+    const max = Math.max(1, Math.floor((state.draft.players.length - 1) / 2));
+    state.draft.imposters = Math.min(max, state.draft.imposters + 1);
+    render();
+  },
+  timeMinus() { state.draft.discussTime = Math.max(15, state.draft.discussTime - 15); render(); },
+  timePlus() { state.draft.discussTime = Math.min(180, state.draft.discussTime + 15); render(); },
+  startGame() { startGame(); },
+  /* quick play */
+  quickPlay() {
+    SFX.tap();
+    const d = defaultDraft();
+    d.players = [
+      { name: 'Player 1', avatar: '🕵️' },
+      { name: 'Player 2', avatar: '👽' },
+      { name: 'Player 3', avatar: '🤖' },
+      { name: 'Player 4', avatar: '🦊' },
+      { name: 'Player 5', avatar: '🐼' },
+      { name: 'Player 6', avatar: '🐸' }
+    ];
+    d.mode = 'CLASSIC';
+    state.draft = d;
+    startGame();
+  },
+  /* game flow */
+  revealStart() {
+    SFX.reveal();
+    state.ui.revealStage = 'card';
+    render();
+  },
+  revealNext() {
+    SFX.tap();
+    nextReveal();
+  },
+  clueStart() {
+    SFX.tap();
+    state.ui.clueStage = 'input';
+    state.ui.clueText = '';
+    render();
+    const box = document.getElementById('clueInput');
+    if (box) setTimeout(() => box.focus(), 120);
+  },
+  submitClue() {
+    const g = state.game;
+    const p = g.players[g.turnOrder[g.turnIdx]];
+    const silent = g.twists.includes('SILENT_IMPOSTER') && p.role === 'IMPOSTER';
+    if (silent) { toast('Silent Imposter: pick an emoji.'); return; }
+    const box = document.getElementById('clueInput');
+    const text = (box ? box.value : state.ui.clueText || '').trim();
+    if (!text) { toast('Please enter a clue.', 'bad'); return; }
+    p.clue = text.slice(0, 120);
+    SFX.tap();
+    nextClue();
+  },
+  pickEmoji(el) {
+    const g = state.game;
+    const p = g.players[g.turnOrder[g.turnIdx]];
+    p.clue = el.dataset.emoji;
+    SFX.tap();
+    nextClue();
+  },
+  investigate(el) {
+    const g = state.game;
+    const p = g.players[g.turnOrder[g.turnIdx]];
+    if (p.role !== 'DETECTIVE' || p.investigated) return;
+    const target = g.players[Number(el.dataset.target)];
+    p.investigated = true;
+    state.ui.investigateResult = {
+      name: target.name,
+      isImposter: target.role === 'IMPOSTER' || target.role === 'SPY'
+    };
+    SFX.reveal();
+    render();
+  },
+  beginVoting() {
+    SFX.tap();
+    beginVoting();
+  },
+  voteStart() {
+    SFX.tap();
+    state.ui.voteStage = 'select';
+    render();
+  },
+  castVote(el) {
+    submitVote(Number(el.dataset.target));
+  },
+  applyElimination() {
+    SFX.tap();
+    applyElimination();
+  },
+  afterElimination() {
+    SFX.tap();
+    afterElimination();
+  },
+  guessStart() {
+    state.ui.guessStage = true;
+    render();
+    setTimeout(() => { const i = $('#finalGuessInput'); if (i) i.focus(); }, 120);
+  },
+  submitFinalGuess() {
+    const box = $('#finalGuessInput');
+    submitFinalGuess(box ? box.value : '');
+  },
+  playAgain() {
+    SFX.tap();
+    startGame();
+  },
+  /* settings */
+  toggleSound() {
+    state.settings.sound = !state.settings.sound;
+    LS.set('settings', state.settings);
+    if (state.settings.sound) SFX.tap();
+    render();
+  },
+  toggleMotion() {
+    state.settings.reducedMotion = !state.settings.reducedMotion;
+    LS.set('settings', state.settings);
+    render();
+  },
+  toggleHaptics() {
+    state.settings.haptics = !state.settings.haptics;
+    LS.set('settings', state.settings);
+    render();
+  },
+  wipeData() {
+    if (!confirm('Erase ALL local data — accounts, stats, achievements and history? This cannot be undone.')) return;
+    Object.keys(localStorage).forEach((k) => {
+      if (k.startsWith('ik_')) localStorage.removeItem(k);
+    });
+    state.user = null;
+    state.profiles = {};
+    state.isGuest = false;
+    toast('All local data erased.');
+    go('welcome');
+  },
+  /* word vault */
+  wordCat(el) {
+    state.ui.wordCat = el.dataset.cat;
+    render();
+  }
+};
+/* ---------------------------------------------------------------
+   13. EVENT WIRING
+--------------------------------------------------------------- */
+app.addEventListener('click', (e) => {
+  const t = e.target.closest('[data-action]');
+  if (!t) return;
+  const fn = ACTIONS[t.dataset.action];
+  if (!fn) return;
+  e.preventDefault();
+  fn(t, e);
+});
+/* live text binding without re-render (preserves focus) */
+app.addEventListener('input', (e) => {
+  const t = e.target;
+  if (t.dataset.bind === 'playerName') {
+    const i = Number(t.dataset.idx);
+    if (state.draft && state.draft.players[i]) state.draft.players[i].name = t.value.slice(0, 18);
+  }
+  if (t.dataset.bind === 'wordSearch') {
+    state.ui.wordSearch = t.value;
+    // Re-render the list only (debounced)
+    clearTimeout(window.__wsT);
+    window.__wsT = setTimeout(() => {
+      const pos = t.selectionStart;
+      render();
+      const box = document.getElementById('wordSearch');
+      if (box) { box.focus(); try { box.setSelectionRange(pos, pos); } catch (err) {} }
+    }, 220);
+  }
+  if (t.id === 'clueInput') {
+    state.ui.clueText = t.value;
+  }
+});
+/* hold-to-reveal */
+app.addEventListener('pointerdown', (e) => {
+  const t = e.target.closest('[data-hold]');
+  if (!t) return;
+  const box = document.getElementById('peekBox');
+  if (box) box.classList.add('showing');
+  t.textContent = '👁️ Release to hide';
+});
+app.addEventListener('contextmenu', (e) => {
+  if (e.target.closest('[data-hold]') || e.target.closest('#peekBox')) e.preventDefault();
+});
+document.addEventListener('pointerup', () => {
+  document.querySelectorAll('.peek.showing').forEach((x) => x.classList.remove('showing'));
+  document.querySelectorAll('[data-hold]').forEach((x) => { x.textContent = '👁️ Hold to see your role & word'; });
+});
+document.addEventListener('pointercancel', () => {
+  document.querySelectorAll('.peek.showing').forEach((x) => x.classList.remove('showing'));
+});
+/* keyboard: Enter submits where helpful */
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter') return;
+  const id = e.target.id;
+  if (id === 'loginPin' || id === 'loginUser') { ACTIONS.doLogin(); }
+  if (id === 'regPin') { ACTIONS.doRegister(); }
+  if (id === 'finalGuessInput') { ACTIONS.submitFinalGuess(); }
+});
+/* ---------------------------------------------------------------
+   14. BOOT
+--------------------------------------------------------------- */
+(function boot() {
+  loadProfiles();
+  const savedSettings = LS.get('settings', null);
+  if (savedSettings) state.settings = Object.assign(state.settings, savedSettings);
+  const sess = LS.get('session', null);
+  if (sess && state.profiles[sess]) {
+    state.user = state.profiles[sess];
+    state.isGuest = false;
+  }
+  state.draft = defaultDraft();
+  render();
+})();
+</script>
+</body>
+</html>

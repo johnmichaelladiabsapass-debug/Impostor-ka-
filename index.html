@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#0b0512">
+<meta name="author" content="John Michael M. Ladia">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -442,6 +443,10 @@ h1{font-size:30px;}
   }
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;}}
+
+/* developer credit */
+.credit{margin-top:10px;text-align:center;font-size:12px;letter-spacing:.06em;color:#b9a9dc;opacity:.85;}
+.credit strong{color:#f3eaff;font-weight:800;letter-spacing:.04em;background:linear-gradient(90deg,#c084fc,#38bdf8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
 </style>
 </head>
 <body>
@@ -837,6 +842,9 @@ function defaultDraft() {
     imposters: 1,
     timers: true,
     discussTime: 60,
+    maxRounds: 0,
+    clueMode: 'TYPE',
+    clueTime: 20,
     finalGuess: true,
     anonymousVote: false
   };
@@ -984,6 +992,9 @@ function createGame(draft) {
     settings: {
       timers: draft.timers,
       discussTime,
+      maxRounds: Math.max(0, draft.maxRounds | 0),
+      clueMode: draft.clueMode === 'TIMER' ? 'TIMER' : 'TYPE',
+      clueTime: clamp(draft.clueTime | 0 || 20, 5, 60),
       finalGuess: draft.finalGuess,
       anonymousVote: draft.anonymousVote
     },
@@ -1076,8 +1087,20 @@ function beginClueRound() {
   state.ui.investigateResult = null;
   go('clue');
 }
+function startClueTimer() {
+  const g = state.game;
+  const idx = g.turnIdx, rnd = g.round;
+  startTimer(g.settings.clueTime, () => {
+    if (state.game !== g || g.turnIdx !== idx || g.round !== rnd || state.screen !== 'clue') return;
+    g.players[g.turnOrder[idx]].clue = '🗣️ Said aloud';
+    SFX.tick();
+    toast("Time's up! Pass the device.");
+    nextClue();
+  });
+}
 function nextClue() {
   const g = state.game;
+  stopTimer();
   g.turnIdx++;
   state.ui.clueStage = 'pass';
   state.ui.clueText = '';
@@ -1210,8 +1233,17 @@ function afterElimination() {
   g.round++;
   nextRound();
 }
+function roundLabel(g) {
+  return g.round + (g.settings.maxRounds > 0 ? ' of ' + g.settings.maxRounds : '');
+}
 function nextRound() {
   const g = state.game;
+  // Round limit reached: whoever was hiding survived
+  if (g.kind !== 'TWIN' && g.settings.maxRounds > 0 && g.round > g.settings.maxRounds) {
+    g.log.push('The ' + g.settings.maxRounds + ' round limit was reached.');
+    if (g.kind === 'SPY') return gameOver('SPY', 'All ' + g.settings.maxRounds + ' rounds passed and the Spy was never caught. The Spy wins!');
+    return gameOver('IMPOSTER', 'All ' + g.settings.maxRounds + ' rounds passed and the imposters were never caught. The imposters win!');
+  }
   // Word Switch twist (once, from round 2)
   if (g.twists.includes('WORD_SWITCH') && !g.wordSwitched && g.round >= 2) {
     g.wordSwitched = true;
@@ -1421,6 +1453,7 @@ SCREENS.splash = () => {
     ${logoMark(130)}
     <div class="logo-text">IMPOSTOR KA!!</div>
     <div class="logo-sub">One word · One imposter · Trust nobody</div>
+    <div class="credit">Developed by: <strong>John Michael M. Ladia</strong></div>
   </div>`;
 };
 /* ---------- WELCOME ---------- */
@@ -1437,6 +1470,7 @@ SCREENS.welcome = () => `<div class="screen center" style="justify-content:cente
   </div>
   <div style="flex:1"></div>
   <div class="tiny" style="opacity:.6">Offline pass-the-phone build · v1.0</div>
+  <div class="credit">Developed by: <strong>John Michael M. Ladia</strong></div>
 </div>`;
 /* ---------- LOGIN ---------- */
 SCREENS.login = () => `<div class="screen">
@@ -1515,6 +1549,7 @@ SCREENS.menu = () => {
     <div class="tiny" style="text-align:center;opacity:.5;line-height:1.6">
       Offline build · ${WORDS.length} words · ${Object.keys(state.profiles).length} local account(s)
     </div>
+    <div class="credit">Developed by: <strong>John Michael M. Ladia</strong></div>
   </div>`;
 };
 /* ---------- GAME MODES OVERVIEW ---------- */
@@ -1655,6 +1690,32 @@ SCREENS.setup = () => {
             <button class="btn btn-sm btn-ghost" data-action="timePlus">+</button>
           </div>
         </div>
+        <div class="row" style="justify-content:space-between;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:14px">
+          <div><div style="font-weight:800;font-size:14px">Rounds</div>
+          <div class="tiny" style="text-transform:none;letter-spacing:0;font-weight:600">${(d.maxRounds | 0) > 0 ? 'Imposters win if they survive every round' : 'Unlimited: play until someone wins'}</div></div>
+          <div class="row" style="gap:6px">
+            <button class="btn btn-sm btn-ghost" data-action="roundsMinus">−</button>
+            <div style="font-weight:900;min-width:44px;text-align:center">${(d.maxRounds | 0) > 0 ? d.maxRounds : '∞'}</div>
+            <button class="btn btn-sm btn-ghost" data-action="roundsPlus">+</button>
+          </div>
+        </div>
+        <div style="padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:14px">
+          <div style="font-weight:800;font-size:14px;margin-bottom:8px">Clue Style</div>
+          <div class="seg">
+            <button class="${d.clueMode === 'TIMER' ? '' : 'on'}" data-action="setClueMode" data-mode="TYPE">⌨️ Type clues</button>
+            <button class="${d.clueMode === 'TIMER' ? 'on' : ''}" data-action="setClueMode" data-mode="TIMER">⏱️ Timer only</button>
+          </div>
+          <div class="tiny" style="text-transform:none;letter-spacing:0;font-weight:600;margin-top:8px">${d.clueMode === 'TIMER' ? 'Players say their clue out loud while a timer runs. No typing.' : 'Each player types a clue on the device.'}</div>
+        </div>
+        ${d.clueMode === 'TIMER' ? `<div class="row" style="justify-content:space-between;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:14px">
+          <div><div style="font-weight:800;font-size:14px">Clue Timer</div>
+          <div class="tiny" style="text-transform:none;letter-spacing:0;font-weight:600">Time per player</div></div>
+          <div class="row" style="gap:6px">
+            <button class="btn btn-sm btn-ghost" data-action="clueTimeMinus">−</button>
+            <div style="font-weight:900;min-width:44px;text-align:center">${d.clueTime | 0 || 20}s</div>
+            <button class="btn btn-sm btn-ghost" data-action="clueTimePlus">+</button>
+          </div>
+        </div>` : ''}
       </div>
     </div>
     <div class="sticky-bottom">
@@ -1713,10 +1774,11 @@ SCREENS.clue = () => {
   if (!p) return '';
   if (state.ui.clueStage === 'pass') {
     return `<div class="screen center" style="justify-content:center">
-      <div class="tiny">Round ${g.round} · Clue time</div>
+      <div class="tiny">Round ${roundLabel(g)} · Clue time</div>
       <div class="avatar big">${esc(p.avatar)}</div>
       <h1>${esc(p.name)}</h1>
       <p class="muted small" style="max-width:300px">Pass the device. Only you should see your clue screen.</p>
+      ${g.settings.clueMode === 'TIMER' ? `<p class="tiny" style="max-width:300px">Your ${g.settings.clueTime}s timer starts when you tap the button.</p>` : ''}
       <button class="btn btn-primary btn-big" style="max-width:340px" data-action="clueStart">
         I'm ${esc(p.name)} — Give Clue
       </button>
@@ -1725,12 +1787,13 @@ SCREENS.clue = () => {
   const meta = ROLE_META[p.role];
   const silent = g.twists.includes('SILENT_IMPOSTER') && p.role === 'IMPOSTER';
   const isDetective = p.role === 'DETECTIVE' && (!p.investigated || !!state.ui.investigateResult);
+  const timerMode = g.settings.clueMode === 'TIMER';
   return `<div class="screen">
     <div class="row">
       <div class="avatar">${esc(p.avatar)}</div>
       <div class="grow">
         <div style="font-weight:900">${esc(p.name)}</div>
-        <div class="tiny">Round ${g.round} · Clue ${g.turnIdx + 1} of ${g.turnOrder.length}</div>
+        <div class="tiny">Round ${roundLabel(g)} · Clue ${g.turnIdx + 1} of ${g.turnOrder.length}</div>
       </div>
       <span class="pill ${meta.cls === 'imposter' ? 'red' : 'blue'}">${meta.icon} ${meta.name}</span>
     </div>
@@ -1767,6 +1830,11 @@ SCREENS.clue = () => {
         <div class="grid3" style="grid-template-columns:repeat(4,1fr);gap:8px">
           ${EMOJI_CLUES.map(e => `<button class="emoji-btn" data-action="pickEmoji" data-emoji="${e}">${e}</button>`).join('')}
         </div>
+      </div>` : timerMode ? `
+      <div class="card center">
+        <div class="tiny">Say your clue out loud</div>
+        <div class="timer-ring" id="timerDisplay" style="font-size:44px;margin:6px 0">${g.settings.clueTime}s</div>
+        <div class="small muted">One word or short phrase. Don't say the secret word! Tap Done when you finish, or the timer will move things along.</div>
       </div>` : `
       <div class="card">
         <div class="field">
@@ -1777,7 +1845,7 @@ SCREENS.clue = () => {
       </div>`}
     <div class="spacer"></div>
     <button class="btn btn-primary btn-big" data-action="submitClue" ${silent ? 'disabled' : ''} id="submitClueBtn">
-      ${silent ? 'Choose an emoji above' : 'Submit Clue'}
+      ${silent ? 'Choose an emoji above' : (timerMode ? 'Done — Next Player' : 'Submit Clue')}
     </button>
   </div>`;
 };
@@ -1786,12 +1854,12 @@ SCREENS.discussion = () => {
   const g = state.game;
   if (!g) return SCREENS.menu();
   return `<div class="screen">
-    ${topBar('Discussion · Round ' + g.round, 'menu')}
+    ${topBar('Discussion · Round ' + roundLabel(g), 'menu')}
     ${g.settings.timers ? `<div class="card card-tight center">
       <div class="tiny">Time remaining</div>
       <div class="timer-ring" id="timerDisplay" style="font-size:34px">${g.settings.discussTime}s</div>
     </div>` : ''}
-    <div class="small muted">Read every clue. Who sounds like they don't actually know the word?</div>
+    <div class="small muted">${g.settings.clueMode === 'TIMER' ? 'Everyone gave their clue out loud. Who sounds like they don\'t actually know the word?' : 'Read every clue. Who sounds like they don\'t actually know the word?'}</div>
     <div class="col" style="gap:8px">
       ${g.turnOrder.map(id => {
         const p = g.players[id];
@@ -2224,6 +2292,7 @@ SCREENS.settings = () => `<div class="screen">
       accounts, leaderboards and admin tools require the Node/Express + Socket.IO + PostgreSQL + Redis
       backend described in the technical design document.
     </div>
+    <div class="credit" style="margin-top:14px;text-align:left">Developed by: <strong>John Michael M. Ladia</strong></div>
   </div>
 </div>`;
 /* ---------- RULES ---------- */
@@ -2435,6 +2504,11 @@ const ACTIONS = {
   },
   timeMinus() { state.draft.discussTime = Math.max(15, state.draft.discussTime - 15); render(); },
   timePlus() { state.draft.discussTime = Math.min(180, state.draft.discussTime + 15); render(); },
+  roundsMinus() { const d = state.draft; d.maxRounds = (d.maxRounds | 0) <= 1 ? 0 : d.maxRounds - 1; render(); },
+  roundsPlus() { const d = state.draft; d.maxRounds = (d.maxRounds | 0) === 0 ? 3 : Math.min(10, d.maxRounds + 1); render(); },
+  setClueMode(el) { state.draft.clueMode = el.dataset.mode === 'TIMER' ? 'TIMER' : 'TYPE'; render(); },
+  clueTimeMinus() { const d = state.draft; d.clueTime = Math.max(5, (d.clueTime | 0 || 20) - 5); render(); },
+  clueTimePlus() { const d = state.draft; d.clueTime = Math.min(60, (d.clueTime | 0 || 20) + 5); render(); },
   startGame() { startGame(); },
   /* quick play */
   quickPlay() {
@@ -2467,6 +2541,11 @@ const ACTIONS = {
     state.ui.clueStage = 'input';
     state.ui.clueText = '';
     render();
+    {
+      const g0 = state.game, p0 = g0.players[g0.turnOrder[g0.turnIdx]];
+      const silent0 = g0.twists.includes('SILENT_IMPOSTER') && p0.role === 'IMPOSTER';
+      if (g0.settings.clueMode === 'TIMER' && !silent0) startClueTimer();
+    }
     const box = document.getElementById('clueInput');
     if (box) setTimeout(() => box.focus(), 120);
   },
@@ -2475,6 +2554,13 @@ const ACTIONS = {
     const p = g.players[g.turnOrder[g.turnIdx]];
     const silent = g.twists.includes('SILENT_IMPOSTER') && p.role === 'IMPOSTER';
     if (silent) { toast('Silent Imposter: pick an emoji.'); return; }
+    if (g.settings.clueMode === 'TIMER') {
+      stopTimer();
+      p.clue = '🗣️ Said aloud';
+      SFX.tap();
+      nextClue();
+      return;
+    }
     const box = document.getElementById('clueInput');
     const text = (box ? box.value : state.ui.clueText || '').trim();
     if (!text) { toast('Please enter a clue.', 'bad'); return; }
